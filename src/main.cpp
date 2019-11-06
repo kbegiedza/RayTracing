@@ -1,9 +1,49 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cmath>
 
 #include "Vector3.hpp"
 #include "Ray.hpp"
+
+float sphere_hit(const bs::Vector3f center, float radius, const bs::Ray& r)
+{
+	auto amc = r.origin() - center;
+
+	float a = r.direction().dot(r.direction());
+	float b = 2 * r.direction().dot(amc);
+	float c = amc.dot(amc) - (radius * radius);
+
+	float delta = b * b - 4 * a * c;
+	if (delta < 0)
+	{
+		return -1;
+	}
+	else
+	{
+		return (-b - std::sqrt(delta)) / (2 * a);
+	}
+}
+
+bs::Vector3f colorize(const bs::Ray& ray)
+{
+	const bs::Vector3f sphere_center = bs::Vector3f(0, 0, -1);
+	float t = sphere_hit(sphere_center, .5, ray);
+	if (t > 0)
+	{
+		bs::Vector3f normal = ray.travel(t) - sphere_center;
+		normal.normalize();
+
+		normal += bs::Vector3f(1, 1, 1);
+		return normal * 0.5;
+	}
+	else
+	{
+		auto norm_dir = ray.direction().normalized();
+		float t = 0.5f * (norm_dir.y() + 1);
+		return bs::Vector3f(1.0, 1.0, 1.0) * (1 - t) + bs::Vector3f(0.5, 0.7, 1.0) * t;
+	}
+}
 
 void export_to_ppm(int width, int height)
 {
@@ -26,12 +66,6 @@ void export_to_ppm(int width, int height)
 	bs::Vector3f vertical(0, height / upp * 2, 0);
 	bs::Vector3f camera;
 
-	auto skybox = [&](const bs::Ray r) -> bs::Vector3f {
-		auto norm_dir = r.direction().normalized();
-		float t = 0.5f * (norm_dir.y() + 1);
-		return bs::Vector3f(1.0, 1.0, 1.0) * (1 - t) + bs::Vector3f(0.5, 0.7, 1.0) * t;
-	};
-
 	for (int y = height - 1; y >= 0; y--)
 	{
 		for (int x = 0; x < width; ++x)
@@ -41,7 +75,7 @@ void export_to_ppm(int width, int height)
 
 			bs::Ray ray(camera, bottom_left + (horizontal * u) + (vertical * v));
 
-			bs::Vector3f color = skybox(ray);
+			bs::Vector3f color = colorize(ray);
 
 			bs::Vector3<int> ppmColor(int(255.99 * color.r()), int(255.99 * color.g()), int(255.99 * color.b()));
 

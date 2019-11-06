@@ -22,7 +22,7 @@ namespace bs
 		return direction_;
 	}
 
-	Vector3f Ray::travelse(const float time) const
+	Vector3f Ray::travel(const float time) const
 	{
 		return origin_ + (direction_ * time);
 	}

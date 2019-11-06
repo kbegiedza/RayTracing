@@ -13,7 +13,7 @@ namespace bs
 
 		Vector3f origin() const;
 		Vector3f direction() const;
-		Vector3f travelse(const float time) const;
+		Vector3f travel(const float time) const;
 
 	private:
 		Vector3f origin_;
