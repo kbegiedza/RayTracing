@@ -33,7 +33,8 @@ namespace bs
 		inline Vector3<T>& operator*=(const T scalar);
 		inline Vector3<T>& operator/=(const T scalar);
 
-		inline Vector3<T> operator*(const T t) const;
+		inline Vector3<T> operator*(const T scalar) const;
+		inline Vector3<T> operator/(const T scalar) const;
 		inline Vector3<T> operator+(const Vector3<T>& rhs) const;
 		inline Vector3<T> operator-(const Vector3<T>& rhs) const;
 
@@ -86,9 +87,15 @@ namespace bs
 	}
 
 	template<typename T>
-	inline Vector3<T> Vector3<T>::operator*(const T t) const
+	inline Vector3<T> Vector3<T>::operator*(const T scalar) const
 	{
-		return Vector3<T>(data_[0] * t, data_[1] * t, data_[2] * t);
+		return Vector3<T>(data_[0] * scalar, data_[1] * scalar, data_[2] * scalar);
+	}
+
+	template<typename T>
+	inline Vector3<T> Vector3<T>::operator/(const T scalar) const
+	{
+		return Vector3<T>(data_[0] / scalar, data_[1] / scalar, data_[2] / scalar);
 	}
 
 	template<typename T>

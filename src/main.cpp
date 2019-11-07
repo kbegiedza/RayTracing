@@ -5,37 +5,18 @@
 
 #include "Vector3.hpp"
 #include "Ray.hpp"
-
-float sphere_hit(const bs::Vector3f center, float radius, const bs::Ray& r)
-{
-	auto amc = r.origin() - center;
-
-	float a = r.direction().dot(r.direction());
-	float b = 2 * r.direction().dot(amc);
-	float c = amc.dot(amc) - (radius * radius);
-
-	float delta = b * b - 4 * a * c;
-	if (delta < 0)
-	{
-		return -1;
-	}
-	else
-	{
-		return (-b - std::sqrt(delta)) / (2 * a);
-	}
-}
+#include "Sphere.hpp"
 
 bs::Vector3f colorize(const bs::Ray& ray)
 {
 	const bs::Vector3f sphere_center = bs::Vector3f(0, 0, -1);
-	float t = sphere_hit(sphere_center, .5, ray);
-	if (t > 0)
-	{
-		bs::Vector3f normal = ray.travel(t) - sphere_center;
-		normal.normalize();
+	bs::Sphere sphere(sphere_center, .5f);
 
-		normal += bs::Vector3f(1, 1, 1);
-		return normal * 0.5;
+	bs::hit hit;
+	if (sphere.hit(ray, 0, std::numeric_limits<float>::max(), hit))
+	{
+		bs::Vector3f color = hit.normal + bs::Vector3f(1, 1, 1);
+		return color * 0.5;
 	}
 	else
 	{
