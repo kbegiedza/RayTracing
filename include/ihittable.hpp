@@ -15,6 +15,7 @@ namespace bs
 	class IHittable
 	{
 	public:
+		virtual ~IHittable() {}
 		virtual bool hit(const Ray& r, float t_min, float t_max, bs::hit& hit) const = 0;
 	};
 }
