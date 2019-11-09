@@ -3,18 +3,20 @@
 
 namespace bs
 {
-	Sphere::Sphere()
-		: radius_(0)
+	Sphere::Sphere(Material* material)
+		: HittableObject(material),
+		radius_(0)
 	{
 	}
 
-	Sphere::Sphere(Vector3f center, float radius)
-		: center_(center),
+	Sphere::Sphere(Vector3f center, float radius, Material* material)
+		: HittableObject(material),
+		center_(center),
 		radius_(radius)
 	{
 	}
 
-	bool Sphere::hit(const Ray& r, float t_min, float t_max, bs::hit& hit) const
+	bool Sphere::hit(const Ray& r, float t_min, float t_max, bs::hit_info& hit) const
 	{
 		auto amc = r.origin() - center_;
 
@@ -31,6 +33,7 @@ namespace bs
 					hit.t = t_in;
 					hit.point = r.travel(t_in);
 					hit.normal = (hit.point - center_) / radius_;
+					hit.object = this;
 					return true;
 				}
 
