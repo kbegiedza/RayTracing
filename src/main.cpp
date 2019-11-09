@@ -73,13 +73,15 @@ void export_to_ppm(int width, int height)
 	bs::Material* matteRedMat = new bs::Lambertian(bs::Vector3f(.8f, .5, .8f));
 	bs::Material* matteGreenMat = new bs::Lambertian(bs::Vector3f(.3, 1, .3f));
 	bs::Material* metallicMat = new bs::Metallic(bs::Vector3f(0.7f, 0.7f, 0.9f));
+	bs::Material* fuzzyMetallicMat = new bs::Metallic(bs::Vector3f(0.7f, 0.7f, 0.9f), 1);
 
-	const int elements = 4;
+	const int elements = 5;
 	bs::IHittable** world = new bs::IHittable * [elements]
 	{
-		new bs::Sphere(bs::Vector3f(1, 0, -1), .5f, matteRedMat),
-		new bs::Sphere(bs::Vector3f(-1, 0, -1.25), .7f, matteRedMat),
-		new bs::Sphere(bs::Vector3f(0, 0, -1), .5f, metallicMat),
+		new bs::Sphere(bs::Vector3f(1, 0, -1), .5f, metallicMat),
+		new bs::Sphere(bs::Vector3f(0, 0, -1), .5f, matteRedMat),
+		new bs::Sphere(bs::Vector3f(-1, 0, -1), .5f, metallicMat),
+		new bs::Sphere(bs::Vector3f(0, 1, -1), .3f, fuzzyMetallicMat),
 		new bs::Sphere(bs::Vector3f(0, -100.5f, -1), 100, matteGreenMat)
 	};
 
@@ -122,6 +124,8 @@ void export_to_ppm(int width, int height)
 	matteGreenMat = nullptr;
 	delete metallicMat;
 	metallicMat = nullptr;
+	delete fuzzyMetallicMat;
+	fuzzyMetallicMat = nullptr;
 
 	stream.close();
 }
@@ -132,8 +136,8 @@ int main()
 
 	auto start_time = high_resolution_clock::now();
 	
-	const int sizeX = 200;
-	const int sizeY = 100;
+	const int sizeX = 400;
+	const int sizeY = 200;
 
 	export_to_ppm(sizeX, sizeY);
 

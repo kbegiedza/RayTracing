@@ -38,16 +38,17 @@ namespace bs
 	class Metallic : public Material
 	{
 	public:
-		Metallic(const Vector3f& albedo)
+		Metallic(const Vector3f& albedo, float fuzzy = 0)
 			: albedo(albedo)
 		{
+			fuzziness = fuzzy > 1 ? 1 : fuzzy;
 		}
 
 		inline virtual bool scatter(const Ray& ray, const hit_info& hit, Vector3f& attenuation, Ray& scattered) const
 		{
 			auto reflected = reflect(ray.direction().normalized(), hit.normal);
 
-			scattered = Ray(hit.point, reflected);
+			scattered = Ray(hit.point, reflected + random_in_shpere() * fuzziness);
 			attenuation = albedo;
 
 			return (scattered.direction().dot(hit.normal) > 0);
@@ -55,6 +56,7 @@ namespace bs
 
 	public:
 		Vector3f albedo;
+		float fuzziness;
 	};
 }
 
