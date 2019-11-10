@@ -8,7 +8,7 @@ namespace bs
 	class Camera
 	{
 	public:
-		Camera(Vector3f origin, Vector3f bottom_left, Vector3f horizontal, Vector3f vertical);
+		Camera(Vector3f lookfrom, Vector3f lookat, Vector3f world_up, const float fov_v, const float aspect, const float aperture, const float focus_dist);
 
 		Ray get_ray(const float u, const float v) const;
 
@@ -16,6 +16,9 @@ namespace bs
 		Vector3f bottom_left_;
 		Vector3f horizontal_;
 		Vector3f vertical_;
+
+		Vector3f u_, v_, w_;
+		float lens_rad_;
 	};
 }
 

@@ -39,6 +39,7 @@ namespace bs
 		inline Vector3<T> operator-(const Vector3<T>& rhs) const;
 
 		inline T dot(const Vector3<T>& rhs) const;
+		inline Vector3<T> cross(const Vector3<T>& rhs) const;
 
 		inline T magnitude() const { return sqrt(squard_magnitude()); }
 		inline T squard_magnitude() const { return data_[0] * data_[0] + data_[1] * data_[1] + data_[2] * data_[2]; }
@@ -57,6 +58,9 @@ namespace bs
 
 		template<typename T>
 		friend inline std::ostream& operator<<(std::ostream & output, const Vector3<T> & rhs);
+
+		template<typename T>
+		friend inline Vector3<T> operator*(const T lhs, const Vector3<T>& rhs);
 
 	private:
 		T data_[3];
@@ -84,6 +88,16 @@ namespace bs
 	inline T Vector3<T>::dot(const Vector3<T>& rhs) const
 	{
 		return data_[0] * rhs[0] + data_[1] * rhs[1] + data_[2] * rhs[2];
+	}
+
+	template<typename T>
+	inline Vector3<T> Vector3<T>::cross(const Vector3<T>& rhs) const
+	{
+		return Vector3<T>(
+			data_[1] * rhs.data_[2] - data_[2] * rhs.data_[1],
+			data_[2] * rhs.data_[0] - data_[0] * rhs.data_[2],
+			data_[0] * rhs.data_[1] - data_[1] * rhs.data_[0]
+			);
 	}
 
 	template<typename T>
@@ -218,6 +232,12 @@ namespace bs
 		output << rhs[0] << " " << rhs[1] << " " << rhs[2];
 
 		return output;
+	}
+
+	template<typename T>
+	Vector3<T> operator*(const T lhs, const Vector3<T>& rhs)
+	{
+		return rhs * lhs;
 	}
 }
 

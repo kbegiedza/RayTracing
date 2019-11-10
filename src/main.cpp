@@ -62,14 +62,6 @@ void export_to_ppm(int width, int height)
 	// file header
 	stream << "P3\n" << width << ' ' << height << "\n255\n";
 
-	const int upp = 100;
-	const int clipZ = -1;
-
-	bs::Vector3f bottom_left(-width / upp, -height / upp, clipZ);
-	bs::Vector3f horizontal(width / upp * 2, 0, 0);
-	bs::Vector3f vertical(0, height / upp * 2, 0);
-	bs::Camera camera(bs::Vector3f(), bottom_left, horizontal, vertical);
-
 	bs::Material* matteRedMat = new bs::Lambertian(bs::Vector3f(.8f, .5, .8f));
 	bs::Material* matteGreenMat = new bs::Lambertian(bs::Vector3f(.8, .8, 0));
 	bs::Material* metallicMat = new bs::Metallic(bs::Vector3f(0.7f, 0.7f, 0.9f));
@@ -84,11 +76,24 @@ void export_to_ppm(int width, int height)
 		new bs::Sphere(bs::Vector3f(-1, 0, -1), .5f, fuzzyMetallicMat),
 		new bs::Sphere(bs::Vector3f(0, -100.5f, -1), 100, matteGreenMat),
 		new bs::Sphere(bs::Vector3f(1, 0, -1), .5, dielecticMat),
-		new bs::Sphere(bs::Vector3f(1, 0, -1), -.45, dielecticMat)
+		new bs::Sphere(bs::Vector3f(0, 0, 0), 1.f, dielecticMat)
 	};
 
+	const int clipZ = -1;
 
-	const int smoothSamples = 32;
+	const float cameraFov = 60;
+	const float aspect = (float)width / (float)height;
+
+	const bs::Vector3f world_up = bs::Vector3f(0, 1, 0);
+	const bs::Vector3f camera_pos = bs::Vector3f(2.5, 1, 1);
+	const bs::Vector3f poi = bs::Vector3f(0, 0, -1);
+
+	const float focus_distance = (camera_pos - poi).magnitude();
+	const float aperture = 0;
+
+	bs::Camera camera(camera_pos, poi, world_up, cameraFov, aspect, aperture, focus_distance);
+
+	const int smoothSamples = 64;
 
 	for (int y = height - 1; y >= 0; y--)
 	{
@@ -103,7 +108,7 @@ void export_to_ppm(int width, int height)
 
 				color += cast_ray(camera.get_ray(u, v), world, elements, 0);
 			}
-			
+
 			color /= smoothSamples;
 			color = bs::Vector3f(std::sqrt(color[0]), std::sqrt(color[1]), std::sqrt(color[2]));
 			bs::Vector3<int> ppmColor(int(255.99 * color.r()), int(255.99 * color.g()), int(255.99 * color.b()));
@@ -139,7 +144,7 @@ int main()
 	using namespace std::chrono;
 
 	auto start_time = high_resolution_clock::now();
-	
+
 	const int sizeX = 400;
 	const int sizeY = 200;
 
@@ -148,9 +153,9 @@ int main()
 	auto end_time = high_resolution_clock::now();
 
 	auto elapsed_ms = duration_cast<std::chrono::milliseconds>(end_time - start_time);
-	
+
 	std::cout << "========================================\n"
-			  << "Finished in: " << elapsed_ms.count() << " [ms].\n"
-			  << "========================================\n";
+		<< "Finished in: " << elapsed_ms.count() << " [ms].\n"
+		<< "========================================\n";
 
 }

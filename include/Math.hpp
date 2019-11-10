@@ -7,6 +7,9 @@
 
 namespace bs
 {
+	const float PI = 3.14159265358979f;
+	const float TAU = 6.28318530718f;
+
 	template <typename T = double>
 	inline T random_range(T minimum, T maximum)
 	{
@@ -36,6 +39,17 @@ namespace bs
 	inline Vector3f reflect(const Vector3f& vector, const Vector3f& normal)
 	{
 		return vector - (normal * 2 * vector.dot(normal));
+	}
+
+	inline Vector3f random_in_disk() 
+	{
+		Vector3f p;
+		do
+		{
+			p = 2.f * Vector3f(random(), random(), 0) - Vector3f(1, 1, 0);
+		} while (p.dot(p) >= 1.0);
+
+		return p;
 	}
 }
 
