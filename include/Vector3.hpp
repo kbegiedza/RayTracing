@@ -44,7 +44,7 @@ namespace bs
 		inline T squard_magnitude() const { return data_[0] * data_[0] + data_[1] * data_[1] + data_[2] * data_[2]; }
 
 		inline void normalize();
-		inline Vector3<T> normalized();
+		inline Vector3<T> normalized() const;
 
 		template<typename T>
 		friend inline std::ifstream& operator>>(std::ifstream & input, Vector3<T> & rhs);
@@ -181,7 +181,7 @@ namespace bs
 	}
 
 	template<typename T>
-	inline Vector3<T> Vector3<T>::normalized()
+	inline Vector3<T> Vector3<T>::normalized() const
 	{
 		T mag = magnitude();
 

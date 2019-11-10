@@ -71,22 +71,24 @@ void export_to_ppm(int width, int height)
 	bs::Camera camera(bs::Vector3f(), bottom_left, horizontal, vertical);
 
 	bs::Material* matteRedMat = new bs::Lambertian(bs::Vector3f(.8f, .5, .8f));
-	bs::Material* matteGreenMat = new bs::Lambertian(bs::Vector3f(.3, 1, .3f));
+	bs::Material* matteGreenMat = new bs::Lambertian(bs::Vector3f(.8, .8, 0));
 	bs::Material* metallicMat = new bs::Metallic(bs::Vector3f(0.7f, 0.7f, 0.9f));
-	bs::Material* fuzzyMetallicMat = new bs::Metallic(bs::Vector3f(0.7f, 0.7f, 0.9f), 1);
+	bs::Material* dielecticMat = new bs::Dielectric(1.5f);
+	bs::Material* fuzzyMetallicMat = new bs::Metallic(bs::Vector3f(0.3f, 0.7f, 0.5f), 1);
 
-	const int elements = 5;
+	const int elements = 6;
 	bs::IHittable** world = new bs::IHittable * [elements]
 	{
-		new bs::Sphere(bs::Vector3f(1, 0, -1), .5f, metallicMat),
 		new bs::Sphere(bs::Vector3f(0, 0, -1), .5f, matteRedMat),
-		new bs::Sphere(bs::Vector3f(-1, 0, -1), .5f, metallicMat),
-		new bs::Sphere(bs::Vector3f(0, 1, -1), .3f, fuzzyMetallicMat),
-		new bs::Sphere(bs::Vector3f(0, -100.5f, -1), 100, matteGreenMat)
+		new bs::Sphere(bs::Vector3f(0, 1, -1), .5f, metallicMat),
+		new bs::Sphere(bs::Vector3f(-1, 0, -1), .5f, fuzzyMetallicMat),
+		new bs::Sphere(bs::Vector3f(0, -100.5f, -1), 100, matteGreenMat),
+		new bs::Sphere(bs::Vector3f(1, 0, -1), .5, dielecticMat),
+		new bs::Sphere(bs::Vector3f(1, 0, -1), -.45, dielecticMat)
 	};
 
 
-	const int smoothSamples = 20;
+	const int smoothSamples = 32;
 
 	for (int y = height - 1; y >= 0; y--)
 	{
@@ -122,6 +124,8 @@ void export_to_ppm(int width, int height)
 	matteRedMat = nullptr;
 	delete matteGreenMat;
 	matteGreenMat = nullptr;
+	delete dielecticMat;
+	dielecticMat = nullptr;
 	delete metallicMat;
 	metallicMat = nullptr;
 	delete fuzzyMetallicMat;
