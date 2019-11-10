@@ -9,7 +9,59 @@
 #include "Sphere.hpp"
 #include "Camera.hpp"
 
-bs::Vector3f cast_ray(const bs::Ray& ray, bs::IHittable** world, int elements, int depth)
+bs::IHittable** generate_random_world(bs::Material*** materials, const size_t elements = 50)
+{
+	*materials = new bs::Material * [elements];
+	bs::IHittable** world = new bs::IHittable * [elements];
+
+	size_t index = 0;
+	(*materials)[index] = new bs::Lambertian(bs::Vector3f(0.5f, 0.5f, 0.5f));
+	world[index] = new bs::Sphere(bs::Vector3f(0, -1000, 0), 1000, (*materials)[index]);
+
+	(*materials)[++index] = new bs::Dielectric(1.5);
+	world[index] = new bs::Sphere(bs::Vector3f(0, 1, -1), 1, (*materials)[index]);
+	(*materials)[++index] = new bs::Lambertian(bs::Vector3f(0.6f, 0.2f, 0.2f));
+	world[index] = new bs::Sphere(bs::Vector3f(-2, 1, -1), 1, (*materials)[index]);
+	(*materials)[++index] = new bs::Metallic(bs::Vector3f(0.8f, 0.8f, 0.9f));
+	world[index] = new bs::Sphere(bs::Vector3f(2, 1, -1), 1, (*materials)[index]);
+
+	for (int i = ++index; i < elements; ++i)
+	{
+		float material_type = bs::random();
+
+		// diffuse
+		if (material_type < .6f)
+		{
+			(*materials)[i] = new bs::Lambertian(bs::Vector3f(bs::random() * bs::random(), bs::random() * bs::random(), bs::random()* bs::random()));
+		}
+		// metallic
+		else if (material_type < .95f)
+		{
+			int fuzziness = 0;
+			(*materials)[i] = new bs::Metallic(bs::Vector3f(1+bs::random(), 1+bs::random(), 1+bs::random()) * .5f, .5f * bs::random());
+		}
+		// glass
+		else
+		{
+			int refractive_index = 0;
+			(*materials)[i] = new bs::Dielectric(refractive_index);
+		}
+	}
+
+	const float minimum_size = 0.1;
+	const float maximum_size = 0.25;
+	for (int i = index; i < elements; ++i)
+	{
+		float radius_rand = bs::random();
+		float radius = (1 - radius_rand) * minimum_size + radius_rand * maximum_size;
+		auto pos = bs::Vector3f(5 - bs::random() * 10, radius, 5 - bs::random()*10);
+		world[i] = new bs::Sphere(pos, radius, (*materials)[i]);
+	}
+
+	return world;
+}
+
+bs::Vector3f cast_ray(const bs::Ray & ray, bs::IHittable * *world, int elements, int depth)
 {
 	bs::hit_info hit;
 
@@ -62,22 +114,6 @@ void export_to_ppm(int width, int height)
 	// file header
 	stream << "P3\n" << width << ' ' << height << "\n255\n";
 
-	bs::Material* matteRedMat = new bs::Lambertian(bs::Vector3f(.8f, .5, .8f));
-	bs::Material* matteGreenMat = new bs::Lambertian(bs::Vector3f(.8, .8, 0));
-	bs::Material* metallicMat = new bs::Metallic(bs::Vector3f(0.7f, 0.7f, 0.9f));
-	bs::Material* dielecticMat = new bs::Dielectric(1.5f);
-	bs::Material* fuzzyMetallicMat = new bs::Metallic(bs::Vector3f(0.3f, 0.7f, 0.5f), 1);
-
-	const int elements = 6;
-	bs::IHittable** world = new bs::IHittable * [elements]
-	{
-		new bs::Sphere(bs::Vector3f(0, 0, -1), .5f, matteRedMat),
-		new bs::Sphere(bs::Vector3f(0, 1, -1), .5f, metallicMat),
-		new bs::Sphere(bs::Vector3f(-1, 0, -1), .5f, fuzzyMetallicMat),
-		new bs::Sphere(bs::Vector3f(0, -100.5f, -1), 100, matteGreenMat),
-		new bs::Sphere(bs::Vector3f(1, 0, -1), .5, dielecticMat),
-		new bs::Sphere(bs::Vector3f(0, 0, 0), 1.f, dielecticMat)
-	};
 
 	const int clipZ = -1;
 
@@ -85,11 +121,15 @@ void export_to_ppm(int width, int height)
 	const float aspect = (float)width / (float)height;
 
 	const bs::Vector3f world_up = bs::Vector3f(0, 1, 0);
-	const bs::Vector3f camera_pos = bs::Vector3f(2.5, 1, 1);
+	const bs::Vector3f camera_pos = bs::Vector3f(3, 2, 3);
 	const bs::Vector3f poi = bs::Vector3f(0, 0, -1);
 
 	const float focus_distance = (camera_pos - poi).magnitude();
 	const float aperture = 0;
+
+	bs::Material * *mats = nullptr;
+	const size_t world_elements = 25;
+	auto world = generate_random_world(&mats, world_elements);
 
 	bs::Camera camera(camera_pos, poi, world_up, cameraFov, aspect, aperture, focus_distance);
 
@@ -106,7 +146,7 @@ void export_to_ppm(int width, int height)
 				float u = float(x + bs::random()) / float(width);
 				float v = float(y + bs::random()) / float(height);
 
-				color += cast_ray(camera.get_ray(u, v), world, elements, 0);
+				color += cast_ray(camera.get_ray(u, v), world, world_elements, 0);
 			}
 
 			color /= smoothSamples;
@@ -116,27 +156,22 @@ void export_to_ppm(int width, int height)
 			stream << ppmColor << std::endl;
 		}
 	}
+	stream.close();
 
-	for (int i = 0; i < elements; ++i)
+	for (int i = 0; i < world_elements; ++i)
 	{
-		delete* world;
-		*world = nullptr;
+		delete* (mats + i);
+		*(mats + i) = nullptr;
+
+		delete * (world + i);
+		*(world + i) = nullptr;
 	}
+
 	delete[] world;
 	world = nullptr;
 
-	delete matteRedMat;
-	matteRedMat = nullptr;
-	delete matteGreenMat;
-	matteGreenMat = nullptr;
-	delete dielecticMat;
-	dielecticMat = nullptr;
-	delete metallicMat;
-	metallicMat = nullptr;
-	delete fuzzyMetallicMat;
-	fuzzyMetallicMat = nullptr;
-
-	stream.close();
+	delete[] mats;
+	mats = nullptr;
 }
 
 int main()
@@ -145,8 +180,8 @@ int main()
 
 	auto start_time = high_resolution_clock::now();
 
-	const int sizeX = 400;
-	const int sizeY = 200;
+	const int sizeX = 640;
+	const int sizeY = 480;
 
 	export_to_ppm(sizeX, sizeY);
 
