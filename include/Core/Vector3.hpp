@@ -1,7 +1,6 @@
 #ifndef VECTOR3_HPP_
 #define VECTOR3_HPP_
 
-#include <iostream>
 #include <cmath>
 
 namespace bs
@@ -43,18 +42,6 @@ namespace bs
 
 		void normalize();
 		Vector3<T> normalized() const;
-
-		template<typename T>
-		friend std::ifstream& operator>>(std::ifstream & input, Vector3<T> & rhs);
-
-		template<typename T>
-		friend std::ofstream& operator<<(std::ofstream & output, const Vector3<T> & rhs);
-
-		template<typename T>
-		friend std::istream& operator>>(std::istream & input, Vector3<T> & rhs);
-
-		template<typename T>
-		friend std::ostream& operator<<(std::ostream & output, const Vector3<T> & rhs);
 
 		template<typename T>
 		friend Vector3<T> operator*(const T lhs, const Vector3<T>& rhs);
@@ -197,38 +184,6 @@ namespace bs
 		T mag = magnitude();
 
 		return Vector3<T>(data_[0] / mag, data_[1] / mag, data_[2] / mag);
-	}
-
-	template<typename T>
-	std::ifstream& operator>>(std::ifstream & input, Vector3<T> & rhs)
-	{
-		input >> rhs[0] >> " " >> rhs[1] >> " " >> rhs[2];
-
-		return input;
-	}
-
-	template<typename T>
-	std::ofstream& operator<<(std::ofstream & output, const Vector3<T> & rhs)
-	{
-		output << rhs[0] << " " << rhs[1] << " " << rhs[2];
-
-		return output;
-	}
-
-	template<typename T>
-	std::istream& operator>>(std::istream & input, Vector3<T> & rhs)
-	{
-		input >> rhs[0] >> " " >> rhs[1] >> " " >> rhs[2];
-
-		return input;
-	}
-
-	template<typename T>
-	std::ostream& operator<<(std::ostream & output, const Vector3<T> & rhs)
-	{
-		output << rhs[0] << " " << rhs[1] << " " << rhs[2];
-
-		return output;
 	}
 
 	template<typename T>

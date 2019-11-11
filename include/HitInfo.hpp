@@ -1,7 +1,7 @@
 #ifndef HIT_INFO_HPP_
 #define HIT_INFO_HPP_
 
-#include "Vector3.hpp"
+#include "Core/Vector3.hpp"
 
 namespace bs
 {
@@ -12,7 +12,7 @@ namespace bs
 		Vector3f point;
 		Vector3f normal;
 		const Geometry* geometry = nullptr;
-		float translation = std::numeric_limits<float>().max();
+		float translation = nanf("");
 	};
 }
 

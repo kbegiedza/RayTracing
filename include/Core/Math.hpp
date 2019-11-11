@@ -3,7 +3,7 @@
 
 #include <functional>
 #include <random>
-#include "Vector3.hpp"
+#include "Core/Vector3.hpp"
 
 namespace bs
 {

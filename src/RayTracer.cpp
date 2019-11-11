@@ -56,7 +56,9 @@ namespace bs
 			Ray scattered;
 			Vector3f attenuation;
 
-			if (depth < 50 && hit.geometry->material().scatter(ray, hit, attenuation, scattered))
+			if (depth < 50
+				&& hit.geometry != nullptr
+				&& hit.geometry->material().scatter(ray, hit, attenuation, scattered))
 			{
 				return attenuation.hadamard(cast_ray(scattered, depth + 1, world));
 			}

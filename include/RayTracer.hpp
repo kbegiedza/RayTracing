@@ -4,9 +4,9 @@
 #include <memory>
 #include <vector>
 
-#include "Color.hpp"
-#include "Material.hpp"
-#include "Geometry.hpp"
+#include "Core/Color.hpp"
+#include "Materials/Material.hpp"
+#include "Geometry/Geometry.hpp"
 #include "RenderSettings.hpp"
 
 namespace bs

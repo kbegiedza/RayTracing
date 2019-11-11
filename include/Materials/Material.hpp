@@ -1,10 +1,10 @@
 #ifndef MATERIAL_HPP_
 #define MATERIAL_HPP_
 
-#include "Vector3.hpp"
+#include "Core/Math.hpp"
+#include "Core/Vector3.hpp"
 #include "Ray.hpp"
 #include "HitInfo.hpp"
-#include "Math.hpp"
 
 namespace bs
 {

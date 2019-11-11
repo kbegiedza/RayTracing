@@ -1,5 +1,5 @@
 #include <cmath>
-#include "Sphere.hpp"
+#include "Geometry/Sphere.hpp"
 
 namespace bs
 {

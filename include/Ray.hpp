@@ -1,7 +1,7 @@
 #ifndef RAY_HPP_
 #define RAY_HPP_
 
-#include "Vector3.hpp"
+#include "Core/Vector3.hpp"
 
 namespace bs
 {

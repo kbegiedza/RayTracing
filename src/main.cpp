@@ -4,9 +4,9 @@
 #include <cmath>
 #include <chrono>
 
-#include "Vector3.hpp"
+#include "Core/Vector3.hpp"
 #include "Ray.hpp"
-#include "Sphere.hpp"
+#include "Geometry/Sphere.hpp"
 #include "Camera.hpp"
 #include "RayTracer.hpp"
 #include "PPMExporter.hpp"
@@ -18,21 +18,21 @@ std::vector<std::unique_ptr<bs::Geometry>> generate_random_world(std::vector<std
 
 	size_t index = 0;
 	materials.push_back(std::make_shared<bs::Lambertian>(bs::Vector3f(0.5f, 0.5f, 0.5f)));
-	world[index] = std::make_unique<bs::Sphere>(bs::Vector3f(0, -1000, 0), 1000, materials[index]);
+	world[index] = std::make_unique<bs::Sphere>(bs::Vector3f(0.f, -1000.f, 0.f), 1000.f, materials[index]);
 
 	index++;
-	materials.push_back(std::make_shared<bs::Dielectric>(1.5));
-	world[index] = std::make_unique<bs::Sphere>(bs::Vector3f(0, 1, -3), 1, materials[index]);
+	materials.push_back(std::make_shared<bs::Dielectric>(1.5f));
+	world[index] = std::make_unique<bs::Sphere>(bs::Vector3f(0.f, 1.f, -3.f), 1.f, materials[index]);
 
 	index++;
 	materials.push_back(std::make_shared<bs::Lambertian>(bs::Vector3f(0.6f, 0.2f, 0.2f)));
-	world[index] = std::make_unique<bs::Sphere>(bs::Vector3f(1, 1, -4.5), 1, materials[index]);
+	world[index] = std::make_unique<bs::Sphere>(bs::Vector3f(1.f, 1.f, -4.5f), 1.f, materials[index]);
 
 	index++;
 	materials.push_back(std::make_shared<bs::Metallic>(bs::Vector3f(0.8f, 0.8f, 0.9f)));
-	world[index] = std::make_unique<bs::Sphere>(bs::Vector3f(2, 1, -3), 1, materials[index]);
+	world[index] = std::make_unique<bs::Sphere>(bs::Vector3f(2.f, 1.f, -3.f), 1.f, materials[index]);
 
-	for (int i = ++index; i < elements; ++i)
+	for (size_t i = ++index; i < elements; ++i)
 	{
 		float material_type = bs::random();
 
@@ -49,14 +49,14 @@ std::vector<std::unique_ptr<bs::Geometry>> generate_random_world(std::vector<std
 		// glass
 		else
 		{
-			int refractive_index = (bs::random() + 3) * .5f;
+			float refractive_index = (bs::random() + 3.f) * .5f;
 			materials.push_back(std::make_shared<bs::Dielectric>(refractive_index));
 		}
 	}
 
-	const float minimum_size = 0.1;
-	const float maximum_size = 0.25;
-	for (int i = index; i < elements; ++i)
+	const float minimum_size = 0.1f;
+	const float maximum_size = 0.25f;
+	for (size_t i = index; i < elements; ++i)
 	{
 		float radius_rand = bs::random();
 		float radius = (1 - radius_rand) * minimum_size + radius_rand * maximum_size;
@@ -102,7 +102,14 @@ int main()
 
 	//output
 	const std::string path = "./output.ppm";
-	bs::PPMExporter::save_data(render_data, width, height, path);
+	try
+	{
+		bs::PPMExporter::save_data(render_data, width, height, path);
+	}
+	catch (std::exception & e)
+	{
+		std::cout << "Error! " << e.what();
+	}
 
 	auto end_time = high_resolution_clock::now();
 

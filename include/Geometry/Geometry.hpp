@@ -5,7 +5,7 @@
 
 #include "Ray.hpp"
 #include "HitInfo.hpp"
-#include "Material/Material.hpp"
+#include "Materials/Material.hpp"
 
 namespace bs
 {

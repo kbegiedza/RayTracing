@@ -1,7 +1,7 @@
 #ifndef SPHERE_HPP_
 #define SPHERE_HPP_
 
-#include "Geometry.hpp"
+#include "Geometry/Geometry.hpp"
 
 namespace bs
 {

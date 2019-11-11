@@ -1,5 +1,5 @@
 #include "Camera.hpp"
-#include "Math.hpp"
+#include "Core/Math.hpp"
 
 namespace bs
 {
