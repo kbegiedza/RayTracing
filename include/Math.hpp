@@ -11,7 +11,7 @@ namespace bs
 	const float TAU = 6.28318530718f;
 
 	template <typename T = float>
-	inline float Clamp(const float& value, const float& min, const float& max)
+	inline float clamp(const float& value, const float& min, const float& max)
 	{
 		if (value > max)
 		{
@@ -31,11 +31,11 @@ namespace bs
 		const int minimum = 0;
 		const int maximum = 1;
 
-		return Clamp(value, minimum, maximum);
+		return clamp(value, minimum, maximum);
 	}
 
 	template <typename T = double>
-	inline T random_range(T minimum, T maximum)
+	inline T random_range(const T& minimum, const T& maximum)
 	{
 		static std::uniform_real_distribution<T> distribution(minimum, maximum);
 		static std::mt19937 generator;

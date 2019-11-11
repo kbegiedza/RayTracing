@@ -64,13 +64,13 @@ namespace bs
 	{
 	public:
 		Dielectric(float ref)
-			: ref_idx(ref)
+			: refractive_index(ref)
 		{
 		}
 
-		inline float schlick(float cosine, float ref_idx) const
+		inline float schlick(float cosine, float refractive_index) const
 		{
-			float r0 = (1 - ref_idx) / (1 + ref_idx);
+			float r0 = (1 - refractive_index) / (1 + refractive_index);
 			r0 = r0 * r0;
 			return r0 + (1 - r0) * pow((1 - cosine), 5);
 		}
@@ -109,19 +109,19 @@ namespace bs
 			if (dot > 0)
 			{
 				outward_normal = -hit.normal;
-				ni_over_nt = ref_idx;
-				cosine = ref_idx * dot / r_in.direction().magnitude();
+				ni_over_nt = refractive_index;
+				cosine = refractive_index * dot / r_in.direction().magnitude();
 			}
 			else
 			{
 				outward_normal = hit.normal;
-				ni_over_nt = 1.0 / ref_idx;
+				ni_over_nt = 1.0f / refractive_index;
 				cosine = -dot / r_in.direction().magnitude();
 			}
 
 			if (refract(r_in.direction(), outward_normal, ni_over_nt, refracted))
 			{
-				reflect_prob = schlick(cosine, ref_idx);
+				reflect_prob = schlick(cosine, refractive_index);
 			}
 			else
 			{
@@ -140,7 +140,7 @@ namespace bs
 			return true;
 		}
 	public:
-		float ref_idx;
+		float refractive_index;
 	};
 }
 

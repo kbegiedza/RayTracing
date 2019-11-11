@@ -16,9 +16,6 @@ namespace bs
 		inline T x() const { return data_[0]; }
 		inline T y() const { return data_[1]; }
 		inline T z() const { return data_[2]; }
-		inline T r() const { return data_[0]; }
-		inline T g() const { return data_[1]; }
-		inline T b() const { return data_[2]; }
 
 		inline const Vector3<T>& operator+() const { return *this; }
 		inline Vector3<T> operator-() const { return Vector3<T>(-data_[0], -data_[1], -data_[2]); }

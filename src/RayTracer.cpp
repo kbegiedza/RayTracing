@@ -2,29 +2,30 @@
 
 namespace bs
 {
-	std::vector<Vector3f> RayTracer::render(const RenderSettings& settings, const std::vector<std::unique_ptr<Geometry>>& world)
+	std::vector<Color> RayTracer::render(const RenderSettings& settings, const std::vector<std::unique_ptr<Geometry>>& world)
 	{
 		const Camera& camera = settings.target_camera;
 
-		std::vector<Vector3f> buffer(settings.width * settings.height);
+		std::vector<Color> buffer(settings.width * settings.height);
 		int buffer_index = 0;
 
+		Vector3f color_sum;
 		for (int y = settings.height - 1; y >= 0; y--)
 		{
 			for (int x = 0; x < settings.width; ++x)
 			{
-				bs::Vector3f color;
+				color_sum = Vector3f();
 
 				for (int s = 0; s < settings.smooth_sampling; ++s)
 				{
 					float u = float(x + bs::random()) / float(settings.width);
 					float v = float(y + bs::random()) / float(settings.height);
 
-					color += cast_ray(camera.get_ray(u, v), 0, world);
+					color_sum += cast_ray(camera.get_ray(u, v), 0, world);
 				}
 
-				color /= settings.smooth_sampling;
-				buffer[buffer_index++] = bs::Vector3f(std::sqrt(color[0]), std::sqrt(color[1]), std::sqrt(color[2]));
+				color_sum /= settings.smooth_sampling;
+				buffer[buffer_index++] = Color(std::sqrt(color_sum[0]), std::sqrt(color_sum[1]), std::sqrt(color_sum[2]));
 			}
 		}
 
