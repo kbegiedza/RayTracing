@@ -46,7 +46,7 @@ namespace bs
 
 	inline float random()
 	{
-		return random_range(0.0f, 1.0f);
+		return (float)random_range(0.0, 1.0);
 	}
 
 	inline Vector3f random_in_shpere()
@@ -54,8 +54,8 @@ namespace bs
 		Vector3f point;
 		do
 		{
-			point = Vector3f(random_range(-1.0f, 1.0f), random_range(-1.0f, 1.0f), random_range(-1.0f, 1.0f));
-		} while (point.squard_magnitude() >= 1.0f);
+			point = Vector3f((float)random_range(-1.0, 1.0), (float)random_range(-1.0, 1.0), (float)random_range(-1.0, 1.0));
+		} while (point.squard_magnitude() >= 1.0);
 
 		return point;
 	}

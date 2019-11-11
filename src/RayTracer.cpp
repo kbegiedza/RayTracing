@@ -10,13 +10,13 @@ namespace bs
 		int buffer_index = 0;
 
 		Vector3f color_sum;
-		for (size_t y = 0; y < settings.width; ++y)
+		for (int y = (int)settings.height - 1; y > 0; --y)
 		{
 			for (size_t x = 0; x < settings.width; ++x)
 			{
 				color_sum = Vector3f();
 
-				for (size_t sample = 0; sample < settings.smooth_sampling; ++sample)
+				for (int s = 0; s < settings.smooth_sampling; ++s)
 				{
 					float u = float(x + bs::random()) / float(settings.width);
 					float v = float(y + bs::random()) / float(settings.height);
