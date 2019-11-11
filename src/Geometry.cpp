@@ -6,4 +6,9 @@ namespace bs
 	{
 		material_ = material;
 	}
+
+	const Material& Geometry::material() const
+	{
+		return *material_;
+	}
 }

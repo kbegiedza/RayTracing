@@ -11,7 +11,7 @@ namespace bs
 		Sphere(std::shared_ptr<Material> material);
 		Sphere(Vector3f center, float radius, std::shared_ptr<Material> material);
 
-		virtual bool hit(const Ray& r, float t_min, float t_max, bs::hit_info& hit) const override;
+		virtual bool hit(const Ray& ray, const float& min_translation, const float& max_translation, HitInfo& hit) const override;
 
 	public:
 		Vector3f center_;

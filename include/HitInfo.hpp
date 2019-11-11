@@ -7,12 +7,12 @@ namespace bs
 {
 	class Geometry;
 
-	struct hit_info
+	struct HitInfo
 	{
 		Vector3f point;
 		Vector3f normal;
-		float t = std::nanf("");
-		const Geometry* object = nullptr;
+		const Geometry* geometry = nullptr;
+		float translation = std::numeric_limits<float>().max();
 	};
 }
 

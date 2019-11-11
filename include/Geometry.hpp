@@ -14,8 +14,11 @@ namespace bs
 	public:
 		Geometry(std::shared_ptr<Material> material);
 
-		virtual bool hit(const Ray& r, float t_min, float t_max, bs::hit_info& hit) const = 0;
-	public:
+		virtual bool hit(const Ray& ray, const float& min_translation, const float& max_translation, HitInfo& hit) const = 0;
+
+		const Material& material() const;
+
+	private:
 		std::shared_ptr<Material> material_;
 	};
 }

@@ -16,24 +16,25 @@ namespace bs
 	{
 	}
 
-	bool Sphere::hit(const Ray& r, float t_min, float t_max, bs::hit_info& hit) const
+	bool Sphere::hit(const Ray& ray, const float& min_translation, const float& max_translation, HitInfo& hit) const
 	{
-		auto amc = r.origin() - center_;
+		auto amc = ray.origin() - center_;
 
-		float a = r.direction().dot(r.direction());
-		float b = r.direction().dot(amc);
+		float a = ray.direction().dot(ray.direction());
+		float b = ray.direction().dot(amc);
 		float c = amc.dot(amc) - (radius_ * radius_);
 
 		float delta = b * b - a * c;
 		if (delta > 0)
 		{
 			auto check_hit = [&](float t_in) -> bool {
-				if (t_in < t_max && t_in > t_min)
+				if (t_in < max_translation && t_in > min_translation)
 				{
-					hit.t = t_in;
-					hit.point = r.travel(t_in);
+					hit.translation = t_in;
+					hit.point = ray.travel(t_in);
 					hit.normal = (hit.point - center_) / radius_;
-					hit.object = this;
+					hit.geometry = this;
+
 					return true;
 				}
 
@@ -42,14 +43,14 @@ namespace bs
 
 			float sqrtDelta = std::sqrt(delta);
 
-			float t = (-b - sqrtDelta) / a;
-			if (check_hit(t))
+			float ray_translation = (-b - sqrtDelta) / a;
+			if (check_hit(ray_translation))
 			{
 				return true;
 			}
 
-			t = (-b + sqrtDelta) / a;
-			if (check_hit(t))
+			ray_translation = (-b + sqrtDelta) / a;
+			if (check_hit(ray_translation))
 			{
 				return true;
 			}

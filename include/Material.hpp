@@ -12,7 +12,7 @@ namespace bs
 	{
 	public:
 		virtual ~Material() {}
-		virtual bool scatter(const Ray& ray, const hit_info& hit, Vector3f& attenuation, Ray& scattered) const = 0;
+		virtual bool scatter(const Ray& ray, const HitInfo& hit, Vector3f& attenuation, Ray& scattered) const = 0;
 	};
 
 	class Lambertian : public Material
@@ -23,7 +23,7 @@ namespace bs
 		{
 		}
 
-		inline virtual bool scatter(const Ray& ray, const hit_info& hit, Vector3f& attenuation, Ray& scattered) const
+		inline virtual bool scatter(const Ray& ray, const HitInfo& hit, Vector3f& attenuation, Ray& scattered) const
 		{
 			auto target = hit.point + hit.normal + random_in_shpere();
 			scattered = Ray(hit.point, target - hit.point);
@@ -45,7 +45,7 @@ namespace bs
 			fuzziness = fuzzy > 1 ? 1 : fuzzy;
 		}
 
-		inline virtual bool scatter(const Ray& ray, const hit_info& hit, Vector3f& attenuation, Ray& scattered) const
+		inline virtual bool scatter(const Ray& ray, const HitInfo& hit, Vector3f& attenuation, Ray& scattered) const
 		{
 			auto reflected = reflect(ray.direction().normalized(), hit.normal);
 
@@ -91,7 +91,7 @@ namespace bs
 			return false;
 		}
 
-		virtual bool scatter(const Ray& r_in, const hit_info& hit, Vector3f& attenuation, Ray& scattered) const
+		virtual bool scatter(const Ray& r_in, const HitInfo& hit, Vector3f& attenuation, Ray& scattered) const
 		{
 			Vector3f outward_normal;
 			Vector3f reflected = reflect(r_in.direction(), hit.normal);
