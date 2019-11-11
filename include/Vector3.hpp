@@ -11,7 +11,7 @@ namespace bs
 	{
 	public:
 		Vector3();
-		Vector3(const T x, const T y, const T z);
+		Vector3(const T& x, const T& y, const T& z);
 
 		T x() const { return data_[0]; }
 		T y() const { return data_[1]; }
@@ -74,7 +74,7 @@ namespace bs
 	}
 
 	template<typename T>
-	Vector3<T>::Vector3(const T x, const T y, const T z)
+	Vector3<T>::Vector3(const T& x, const T& y, const T& z)
 	{
 		data_[0] = x;
 		data_[1] = y;

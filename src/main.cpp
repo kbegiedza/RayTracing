@@ -9,6 +9,7 @@
 #include "Sphere.hpp"
 #include "Camera.hpp"
 #include "RayTracer.hpp"
+#include "PPMExporter.hpp"
 
 std::vector<std::unique_ptr<bs::Geometry>> generate_random_world(std::vector<std::shared_ptr<bs::Material>>& materials, const size_t elements)
 {
@@ -68,8 +69,15 @@ std::vector<std::unique_ptr<bs::Geometry>> generate_random_world(std::vector<std
 	return world;
 }
 
-void export_to_ppm(int width, int height)
+int main()
 {
+	using namespace std::chrono;
+
+	auto start_time = high_resolution_clock::now();
+
+	const int width = 192;
+	const int height = 108;
+
 	//world
 	const size_t world_elements = 150;
 	std::vector<std::shared_ptr<bs::Material>> mats;
@@ -90,37 +98,11 @@ void export_to_ppm(int width, int height)
 	//render
 	const int smoothSamples = 2;
 	const bs::RenderSettings render_settings(camera, width, height, smoothSamples);
-	auto render = bs::RayTracer::render(render_settings, world);
+	auto render_data = bs::RayTracer::render(render_settings, world);
 
 	//output
 	const std::string path = "./output.ppm";
-	std::ofstream stream(path);
-	if (!stream.is_open())
-	{
-		throw std::runtime_error("cannot open file" + path);
-	}
-
-	// file header
-	stream << "P3\n" << width << ' ' << height << "\n255\n";
-	for (auto&& color : render)
-	{
-		bs::Vector3<int> ppmColor(int(255.99 * color.r()), int(255.99 * color.g()), int(255.99 * color.b()));
-
-		stream << ppmColor << std::endl;
-	}
-	stream.close();
-}
-
-int main()
-{
-	using namespace std::chrono;
-
-	auto start_time = high_resolution_clock::now();
-
-	const int sizeX = 192;
-	const int sizeY = 108;
-
-	export_to_ppm(sizeX, sizeY);
+	bs::PPMExporter::save_data(render_data, width, height, path);
 
 	auto end_time = high_resolution_clock::now();
 

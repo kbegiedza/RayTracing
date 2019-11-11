@@ -1,3 +1,4 @@
+
 #ifndef COLOR_HPP_
 #define COLOR_HPP_
 
@@ -7,7 +8,7 @@ namespace bs
 	{
 	public:
 		Color();
-		Color(const float& r, const float& g, const float& b);
+		Color(const float& red, const float& green, const float& blue);
 
 		float r() const;
 		float g() const;
