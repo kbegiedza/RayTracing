@@ -1,5 +1,5 @@
-#ifndef IHITTABLE_HPP_
-#define IHITTABLE_HPP_
+#ifndef GEOMETRY_HPP_
+#define GEOMETRY_HPP_
 
 #include <memory>
 
@@ -23,4 +23,4 @@ namespace bs
 	};
 }
 
-#endif // !IHITTABLE_HPP_
+#endif // !GEOMETRY_HPP_
