@@ -10,6 +10,30 @@ namespace bs
 	const float PI = 3.14159265358979f;
 	const float TAU = 6.28318530718f;
 
+	template <typename T = float>
+	inline float Clamp(const float& value, const float& min, const float& max)
+	{
+		if (value > max)
+		{
+			return max;
+		}
+		else if(value < min)
+		{
+			return min;
+		}
+
+		return value;
+	}
+
+	template <typename T = float>
+	inline float clamp01(const float& value)
+	{
+		const int minimum = 0;
+		const int maximum = 1;
+
+		return Clamp(value, minimum, maximum);
+	}
+
 	template <typename T = double>
 	inline T random_range(T minimum, T maximum)
 	{

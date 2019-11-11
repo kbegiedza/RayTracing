@@ -3,14 +3,14 @@
 
 namespace bs
 {
-	Sphere::Sphere(Material* material)
-		: HittableObject(material),
+	Sphere::Sphere(std::shared_ptr<Material> material)
+		: Geometry(material),
 		radius_(0)
 	{
 	}
 
-	Sphere::Sphere(Vector3f center, float radius, Material* material)
-		: HittableObject(material),
+	Sphere::Sphere(Vector3f center, float radius, std::shared_ptr<Material> material)
+		: Geometry(material),
 		center_(center),
 		radius_(radius)
 	{

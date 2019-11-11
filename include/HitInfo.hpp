@@ -1,16 +1,18 @@
 #ifndef HIT_INFO_HPP_
 #define HIT_INFO_HPP_
 
+#include "Vector3.hpp"
+
 namespace bs
 {
-	class HittableObject;
+	class Geometry;
 
 	struct hit_info
 	{
-		float t;
 		Vector3f point;
 		Vector3f normal;
-		const HittableObject* object;
+		float t = std::nanf("");
+		const Geometry* object = nullptr;
 	};
 }
 
