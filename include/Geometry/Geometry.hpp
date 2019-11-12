@@ -7,20 +7,22 @@
 #include "HitInfo.hpp"
 #include "Materials/Material.hpp"
 
-namespace bs
+namespace rt
+{
+namespace geometry
 {
 	class Geometry
 	{
 	public:
-		Geometry(std::shared_ptr<Material> material);
-
-		virtual bool hit(const Ray& ray, const float& min_translation, const float& max_translation, HitInfo& hit) const = 0;
+		Geometry(const Material& material);
 
 		const Material& material() const;
 
+		virtual bool hit(const Ray& ray, const float& min_translation, const float& max_translation, HitInfo& hit) const = 0;
 	private:
-		std::shared_ptr<Material> material_;
+		const Material& material_;
 	};
+}
 }
 
 #endif // !GEOMETRY_HPP_

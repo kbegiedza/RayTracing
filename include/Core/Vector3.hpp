@@ -3,11 +3,14 @@
 
 #include <cmath>
 
-namespace bs
+namespace rt
 {
 	template <typename T>
 	class Vector3
 	{
+	public:
+		static Vector3<T> reflect(const Vector3<T>& vector, const Vector3<T>& normal);
+
 	public:
 		Vector3();
 		Vector3(const T& x, const T& y, const T& z);
@@ -15,6 +18,10 @@ namespace bs
 		T x() const { return data_[0]; }
 		T y() const { return data_[1]; }
 		T z() const { return data_[2]; }
+
+		void set_x(const T& value) { data_[0] = value; }
+		void set_y(const T& value) { data_[1] = value; }
+		void set_z(const T& value) { data_[2] = value; }
 
 		const Vector3<T>& operator+() const { return *this; }
 		Vector3<T> operator-() const { return Vector3<T>(-data_[0], -data_[1], -data_[2]); }
@@ -37,8 +44,8 @@ namespace bs
 		T dot(const Vector3<T>& rhs) const;
 		Vector3<T> cross(const Vector3<T>& rhs) const;
 
-		T magnitude() const { return sqrt(squard_magnitude()); }
-		T squard_magnitude() const { return data_[0] * data_[0] + data_[1] * data_[1] + data_[2] * data_[2]; }
+		T magnitude() const { return sqrt(squared_magnitude()); }
+		T squared_magnitude() const { return data_[0] * data_[0] + data_[1] * data_[1] + data_[2] * data_[2]; }
 
 		void normalize();
 		Vector3<T> normalized() const;
@@ -51,6 +58,12 @@ namespace bs
 	};
 
 	typedef Vector3<float> Vector3f;
+
+	template<typename T>
+	Vector3<T> Vector3<T>::reflect(const Vector3<T>& vector, const Vector3<T>& normal)
+	{
+		return vector - (normal * 2 * vector.dot(normal));
+	}
 
 	template<typename T>
 	Vector3<T>::Vector3()

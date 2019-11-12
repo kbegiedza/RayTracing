@@ -1,15 +1,17 @@
 #include <cmath>
 #include "Geometry/Sphere.hpp"
 
-namespace bs
+namespace rt
 {
-	Sphere::Sphere(std::shared_ptr<Material> material)
+namespace geometry
+{
+	Sphere::Sphere(const Material& material)
 		: Geometry(material),
 		radius_(0)
 	{
 	}
 
-	Sphere::Sphere(Vector3f center, float radius, std::shared_ptr<Material> material)
+	Sphere::Sphere(Vector3f center, float radius, const Material& material)
 		: Geometry(material),
 		center_(center),
 		radius_(radius)
@@ -58,4 +60,5 @@ namespace bs
 
 		return false;
 	}
+}
 }

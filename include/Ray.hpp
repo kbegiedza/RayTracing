@@ -3,7 +3,7 @@
 
 #include "Core/Vector3.hpp"
 
-namespace bs
+namespace rt
 {
 	class Ray
 	{

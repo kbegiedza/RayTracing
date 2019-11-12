@@ -3,7 +3,7 @@
 
 #include "Camera.hpp"
 
-namespace bs
+namespace rt
 {
 	struct RenderSettings
 	{

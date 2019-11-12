@@ -3,7 +3,7 @@
 
 #include "Ray.hpp"
 
-namespace bs
+namespace rt
 {
 	class Camera
 	{

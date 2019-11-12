@@ -1,7 +1,10 @@
 #include "RayTracer.hpp"
+#include <iostream>
 
-namespace bs
+namespace rt
 {
+	using geometry::Geometry;
+
 	std::vector<Color> RayTracer::render(const RenderSettings& settings, const std::vector<std::unique_ptr<Geometry>>& world)
 	{
 		const Camera& camera = settings.target_camera;
@@ -10,7 +13,6 @@ namespace bs
 		int buffer_index = 0;
 
 		Vector3f color_sum;
-		for (int y = (int)settings.height - 1; y > 0; --y)
 		for (int y = (int)settings.height - 1; y >= 0; --y)
 		{
 			for (size_t x = 0; x < settings.width; ++x)
@@ -19,13 +21,13 @@ namespace bs
 
 				for (int s = 0; s < settings.smooth_sampling; ++s)
 				{
-					float u = float(x + bs::random()) / float(settings.width);
-					float v = float(y + bs::random()) / float(settings.height);
+					float u = float(x + random::real()) / float(settings.width);
+					float v = float(y + random::real()) / float(settings.height);
 
 					color_sum += cast_ray(camera.get_ray(u, v), 0, world);
 				}
 
-				color_sum /= (float)settings.smooth_sampling;
+				color_sum /= settings.smooth_sampling;
 				buffer[buffer_index++] = Color(std::sqrt(color_sum[0]), std::sqrt(color_sum[1]), std::sqrt(color_sum[2]));
 			}
 		}
@@ -38,7 +40,7 @@ namespace bs
 		HitInfo hit;
 
 		float current_max = std::numeric_limits<float>::max();
-		const float minimum = 0.001f;
+		const float minimum = 0.001;
 		bool got_any_hit = false;
 		HitInfo tempHit;
 

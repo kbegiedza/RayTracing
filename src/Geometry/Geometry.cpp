@@ -1,14 +1,17 @@
 #include "Geometry/Geometry.hpp"
 
-namespace bs
+namespace rt
 {
-	Geometry::Geometry(std::shared_ptr<Material> material)
+namespace geometry
+{
+	Geometry::Geometry(const Material& material)
+		:material_(material)
 	{
-		material_ = material;
 	}
 
 	const Material& Geometry::material() const
 	{
-		return *material_;
+		return material_;
 	}
+}
 }

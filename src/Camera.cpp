@@ -1,13 +1,14 @@
 #include "Camera.hpp"
-#include "Core/Math.hpp"
+#include "Core/Mathf.hpp"
+#include "Core/Random.hpp"
 
-namespace bs
+namespace rt
 {
 	Camera::Camera(Vector3f lookfrom, Vector3f lookat, Vector3f world_up, const float fov_v, const float aspect, const float aperture, const float focus_dist)
 	{
 		lens_rad_ = aperture / 2.f;
 
-		float theta = fov_v * PI / 180;
+		float theta = fov_v * mathf::PI / 180.f;
 		float half_height = std::tan(theta / 2);
 		float half_width = half_height * aspect;
 
@@ -24,9 +25,9 @@ namespace bs
 
 	Ray Camera::get_ray(const float u, const float v) const
 	{
-		Vector3f rd = lens_rad_ * random_in_disk();
+		Vector3f rd = lens_rad_ * random::inside_unit_disk();
 		Vector3f offset = u_ * rd.x() + v_ * rd.y();
 
-		return bs::Ray(origin_ + offset, bottom_left_ + (horizontal_ * u) + (vertical_ * v) - origin_ - offset);
+		return rt::Ray(origin_ + offset, bottom_left_ + (horizontal_ * u) + (vertical_ * v) - origin_ - offset);
 	}
 }

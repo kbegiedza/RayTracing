@@ -1,12 +1,13 @@
 #ifndef MATERIAL_HPP_
 #define MATERIAL_HPP_
 
-#include "Core/Math.hpp"
+#include "Core/Mathf.hpp"
 #include "Core/Vector3.hpp"
+#include "Core/Random.hpp"
 #include "Ray.hpp"
 #include "HitInfo.hpp"
 
-namespace bs
+namespace rt
 {
 	class Material
 	{
@@ -25,7 +26,7 @@ namespace bs
 
 		inline virtual bool scatter(const Ray& ray, const HitInfo& hit, Vector3f& attenuation, Ray& scattered) const
 		{
-			auto target = hit.point + hit.normal + random_in_shpere();
+			auto target = hit.point + hit.normal + random::inside_unit_sphere();
 			scattered = Ray(hit.point, target - hit.point);
 			attenuation = albedo;
 
@@ -47,9 +48,9 @@ namespace bs
 
 		inline virtual bool scatter(const Ray& ray, const HitInfo& hit, Vector3f& attenuation, Ray& scattered) const
 		{
-			auto reflected = reflect(ray.direction().normalized(), hit.normal);
+			auto reflected = Vector3f::reflect(ray.direction().normalized(), hit.normal);
 
-			scattered = Ray(hit.point, reflected + random_in_shpere() * fuzziness);
+			scattered = Ray(hit.point, reflected + random::inside_unit_sphere() * fuzziness);
 			attenuation = albedo;
 
 			return (scattered.direction().dot(hit.normal) > 0);
@@ -94,7 +95,7 @@ namespace bs
 		virtual bool scatter(const Ray& r_in, const HitInfo& hit, Vector3f& attenuation, Ray& scattered) const
 		{
 			Vector3f outward_normal;
-			Vector3f reflected = reflect(r_in.direction(), hit.normal);
+			Vector3f reflected = Vector3f::reflect(r_in.direction(), hit.normal);
 
 			float ni_over_nt;
 
@@ -128,7 +129,7 @@ namespace bs
 				reflect_prob = 1.0;
 			}
 
-			if (random() < reflect_prob)
+			if (random::real() < reflect_prob)
 			{
 				scattered = Ray(hit.point, reflected);
 			}

@@ -3,15 +3,18 @@
 
 #include "Core/Vector3.hpp"
 
-namespace bs
+namespace rt
+{
+namespace geometry
 {
 	class Geometry;
+}
 
 	struct HitInfo
 	{
 		Vector3f point;
 		Vector3f normal;
-		const Geometry* geometry = nullptr;
+		const geometry::Geometry* geometry = nullptr;
 		float translation = nanf("");
 	};
 }

@@ -1,6 +1,6 @@
 #include "Ray.hpp"
 
-namespace bs
+namespace rt
 {
 	Ray::Ray()
 	{
