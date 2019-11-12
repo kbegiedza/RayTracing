@@ -11,6 +11,7 @@ namespace bs
 
 		Vector3f color_sum;
 		for (int y = (int)settings.height - 1; y > 0; --y)
+		for (int y = (int)settings.height - 1; y >= 0; --y)
 		{
 			for (size_t x = 0; x < settings.width; ++x)
 			{
