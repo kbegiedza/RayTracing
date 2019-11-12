@@ -5,10 +5,10 @@
 
 namespace rt
 {
-namespace geometry
-{
-	class Geometry;
-}
+	namespace geometry
+	{
+		class Geometry;
+	}
 
 	struct HitInfo
 	{
