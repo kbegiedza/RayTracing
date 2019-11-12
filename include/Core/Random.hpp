@@ -12,12 +12,12 @@ namespace random
 {
 	/**
 	* Returns random number with uniform distribution
-	* @return random number [minimum, maximum)
+	* @return random number [minimum, maximum]
 	*/
 	template <typename T = double>
 	inline T range(const T & minimum, const T & maximum)
 	{
-		static std::uniform_real_distribution<T> distribution(minimum, maximum);
+		static std::uniform_real_distribution<T> distribution(minimum, std::nextafter(maximum, std::numeric_limits<T>::max()));
 		static std::mt19937 generator;
 		static std::function<T()> random_generator = std::bind(distribution, generator);
 
@@ -25,8 +25,8 @@ namespace random
 	}
 
 	/**
-	* Returns random number [0;1) with uniform distribution
-	* @return real number [0;1)
+	* Returns random number [0;1] with uniform distribution
+	* @return real number [0;1]
 	*/
 	float real();
 
