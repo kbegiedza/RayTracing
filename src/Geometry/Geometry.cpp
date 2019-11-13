@@ -4,8 +4,14 @@ namespace rt
 {
 namespace geometry
 {
+	using namespace materials;
+
 	Geometry::Geometry(const Material& material)
 		: material_(material)
+	{
+	}
+
+	Geometry::~Geometry()
 	{
 	}
 

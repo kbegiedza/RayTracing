@@ -17,9 +17,9 @@ namespace random
 	template <typename T = double>
 	inline T range(const T & minimum, const T & maximum)
 	{
-		static std::uniform_real_distribution<T> distribution(minimum, std::nextafter(maximum, std::numeric_limits<T>::max()));
-		static std::mt19937 generator;
-		static std::function<T()> random_generator = std::bind(distribution, generator);
+		static const std::uniform_real_distribution<T> distribution(minimum, std::nextafter(maximum, std::numeric_limits<T>::max()));
+		static const std::mt19937 generator;
+		static const std::function<T()> random_generator = std::bind(distribution, generator);
 
 		return random_generator();
 	}

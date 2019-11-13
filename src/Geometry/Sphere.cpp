@@ -5,6 +5,8 @@ namespace rt
 {
 namespace geometry
 {
+	using namespace materials;
+
 	Sphere::Sphere(const Vector3f& center, const float& radius, const Material& material)
 		: Geometry(material),
 		center_(center),
@@ -14,7 +16,7 @@ namespace geometry
 
 	bool Sphere::hit(const Ray& ray, const float& min_translation, const float& max_translation, HitInfo& hit) const
 	{
-		static auto calculate_valid_hit = [&](const float& translation)
+		auto calculate_valid_hit = [&](const float& translation)
 		{
 			if (mathf::is_between(translation, min_translation, max_translation))
 			{
@@ -25,6 +27,8 @@ namespace geometry
 
 				return true;
 			}
+
+			return false;
 		};
 
 		const Vector3f ray_to_center = ray.origin() - center_;

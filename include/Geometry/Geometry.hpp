@@ -14,15 +14,17 @@ namespace geometry
 	class Geometry
 	{
 	public:
-		Geometry(const Material& material);
+		Geometry(const materials::Material& material);
+		virtual ~Geometry();
 
-		const Material& material() const;
+		const materials::Material& material() const;
 
 		virtual bool hit(const Ray& ray, const float& min_translation, const float& max_translation, HitInfo& hit) const = 0;
 
 	private:
-		const Material& material_;
+		const materials::Material& material_;
 	};
+
 }
 }
 
