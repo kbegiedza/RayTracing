@@ -3,6 +3,8 @@
 
 namespace rt
 {
+	using mathf::clamp01;
+
 	Color Color::black()
 	{
 		return Color();
@@ -14,9 +16,9 @@ namespace rt
 	}
 
 	Color::Color(const float& red, const float& green, const float& blue)
-		: r_(mathf::clamp01(red)),
-		g_(mathf::clamp01(green)),
-		b_(mathf::clamp01(blue))
+		: r_(clamp01(red)),
+		g_(clamp01(green)),
+		b_(clamp01(blue))
 	{
 	}
 
@@ -37,16 +39,16 @@ namespace rt
 
 	void Color::set_r(const float& value)
 	{
-		r_ = mathf::clamp01(value);
+		r_ = clamp01(value);
 	}
 
 	void Color::set_g(const float& value)
 	{
-		g_ = mathf::clamp01(value);
+		g_ = clamp01(value);
 	}
 
 	void Color::set_b(const float& value)
 	{
-		b_ = mathf::clamp01(value);
+		b_ = clamp01(value);
 	}
 }

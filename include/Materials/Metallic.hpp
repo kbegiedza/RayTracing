@@ -10,25 +10,13 @@ namespace materials
 	class Metallic : public Material
 	{
 	public:
-		Metallic(const Vector3f& albedo, float fuzzy = 0)
-			: albedo(albedo)
-		{
-			fuzziness = fuzzy > 1 ? 1 : fuzzy;
-		}
+		Metallic(const Vector3f& albedo_, float fuzzy = 0);
 
-		inline virtual bool scatter(const Ray& ray, const HitInfo& hit, Vector3f& attenuation, Ray& scattered) const
-		{
-			auto reflected = Vector3f::reflect(ray.direction().normalized(), hit.normal);
+		virtual bool scatter(const Ray& ray, const HitInfo& hit, Vector3f& attenuation, Ray& scattered) const;
 
-			scattered = Ray(hit.point, reflected + random::inside_unit_sphere() * fuzziness);
-			attenuation = albedo;
-
-			return (scattered.direction().dot(hit.normal) > 0);
-		}
-
-	public:
-		Vector3f albedo;
-		float fuzziness;
+	private:
+		Vector3f albedo_;
+		float fuzziness_;
 	};
 }
 }

@@ -10,22 +10,12 @@ namespace materials
 	class Lambertian : public Material
 	{
 	public:
-		Lambertian(const Vector3f& albedo)
-			: albedo(albedo)
-		{
-		}
+		Lambertian(const Vector3f& albedo_);
 
-		inline virtual bool scatter(const Ray& ray, const HitInfo& hit, Vector3f& attenuation, Ray& scattered) const
-		{
-			auto target = hit.point + hit.normal + random::inside_unit_sphere();
-			scattered = Ray(hit.point, target - hit.point);
-			attenuation = albedo;
-
-			return true;
-		}
+		virtual bool scatter(const Ray& ray, const HitInfo& hit, Vector3f& attenuation, Ray& scattered) const;
 
 	public:
-		Vector3f albedo;
+		Vector3f albedo_;
 	};
 }
 }
