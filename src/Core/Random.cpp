@@ -40,7 +40,7 @@ namespace random
 		{
 			point = unit_vector();
 			point.set_z(0);
-		} while (point.dot(point) >= 1.0f);
+		} while (Vector3f::dot(point, point) >= 1.0f);
 
 		return point;
 	}

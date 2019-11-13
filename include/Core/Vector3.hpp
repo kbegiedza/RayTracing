@@ -5,11 +5,13 @@
 
 namespace rt
 {
-	template <typename T>
+	template <typename T = double>
 	class Vector3
 	{
 	public:
 		static Vector3<T> reflect(const Vector3<T>& vector, const Vector3<T>& normal);
+		static T dot(const Vector3<T>& lhs, const Vector3<T>& rhs);
+		static Vector3<T> cross(const Vector3<T>& lhs, const Vector3<T>& rhs);
 
 	public:
 		Vector3();
@@ -23,13 +25,12 @@ namespace rt
 		void set_y(const T& value) { data_[1] = value; }
 		void set_z(const T& value) { data_[2] = value; }
 
+		T& operator[](const int i) { return data_[i]; }
+		T operator[](const int i) const { return data_[i]; }
 		const Vector3<T>& operator+() const { return *this; }
 		Vector3<T> operator-() const { return Vector3<T>(-data_[0], -data_[1], -data_[2]); }
-		T operator[](const int i) const { return data_[i]; }
-		T& operator[](const int i) { return data_[i]; }
 
 		Vector3<T>& hadamard(const Vector3<T> & rhs);
-		Vector3<T>& inversed_hadamard(const Vector3<T> & rhs);
 
 		Vector3<T>& operator+=(const Vector3<T> & rhs);
 		Vector3<T>& operator-=(const Vector3<T> & rhs);
@@ -44,8 +45,8 @@ namespace rt
 		T dot(const Vector3<T>& rhs) const;
 		Vector3<T> cross(const Vector3<T>& rhs) const;
 
-		T magnitude() const { return sqrt(squared_magnitude()); }
-		T squared_magnitude() const { return data_[0] * data_[0] + data_[1] * data_[1] + data_[2] * data_[2]; }
+		T magnitude() const;
+		T squared_magnitude() const;
 
 		void normalize();
 		Vector3<T> normalized() const;
@@ -66,6 +67,20 @@ namespace rt
 	}
 
 	template<typename T>
+	inline T Vector3<T>::dot(const Vector3<T>& lhs, const Vector3<T>& rhs)
+	{
+		return lhs[0] * rhs[0] + lhs[1] * rhs[1] + lhs[2] * rhs[2];
+	}
+
+	template<typename T>
+	inline Vector3<T> Vector3<T>::cross(const Vector3<T>& lhs, const Vector3<T>& rhs)
+	{
+		return Vector3<T>(lhs[1] * rhs[2] - lhs[2] * rhs[1],
+						lhs[2] * rhs[0] - lhs[0] * rhs[2],
+						lhs[0] * rhs[1] - lhs[1] * rhs[0]);
+	}
+
+	template<typename T>
 	Vector3<T>::Vector3()
 	{
 		data_[0] = 0;
@@ -82,19 +97,27 @@ namespace rt
 	}
 
 	template<typename T>
-	T Vector3<T>::dot(const Vector3<T>& rhs) const
+	inline T Vector3<T>::dot(const Vector3<T>& rhs) const
 	{
-		return data_[0] * rhs[0] + data_[1] * rhs[1] + data_[2] * rhs[2];
+		return dot(*this, rhs);
 	}
 
 	template<typename T>
 	Vector3<T> Vector3<T>::cross(const Vector3<T>& rhs) const
 	{
-		return Vector3<T>(
-			data_[1] * rhs.data_[2] - data_[2] * rhs.data_[1],
-			data_[2] * rhs.data_[0] - data_[0] * rhs.data_[2],
-			data_[0] * rhs.data_[1] - data_[1] * rhs.data_[0]
-			);
+		return cross(*this, rhs);
+	}
+
+	template<typename T>
+	inline T Vector3<T>::magnitude() const
+	{
+		return sqrt(squared_magnitude());
+	}
+
+	template<typename T>
+	inline T Vector3<T>::squared_magnitude() const
+	{
+		return dot(*this, *this);
 	}
 
 	template<typename T>
@@ -127,16 +150,6 @@ namespace rt
 		data_[0] *= rhs.data_[0];
 		data_[1] *= rhs.data_[1];
 		data_[2] *= rhs.data_[2];
-
-		return *this;
-	}
-
-	template<typename T>
-	Vector3<T>& Vector3<T>::inversed_hadamard(const Vector3<T>& rhs)
-	{
-		data_[0] /= rhs.data_[0];
-		data_[1] /= rhs.data_[1];
-		data_[2] /= rhs.data_[2];
 
 		return *this;
 	}
