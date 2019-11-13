@@ -55,20 +55,5 @@ namespace geometry
 
 		return false;
 	}
-
-	bool Sphere::calculate_valid_hit(const float& translation, const float& min_translation, const float& max_translation, const rt::Ray& ray, rt::HitInfo& hit) const
-	{
-		if (mathf::is_between(translation, min_translation, max_translation))
-		{
-			hit.translation = translation;
-			hit.point = ray.travel(translation);
-			hit.normal = (hit.point - center_) / radius_;
-			hit.geometry = this;
-
-			return true;
-		}
-
-		return false;
-	}
 }
 }

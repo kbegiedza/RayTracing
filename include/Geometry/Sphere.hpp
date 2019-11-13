@@ -15,9 +15,6 @@ namespace geometry
 		virtual bool hit(const Ray& ray, const float& min_translation, const float& max_translation, HitInfo& hit) const override;
 
 	private:
-		bool calculate_valid_hit(const float& translation, const float& min_translation, const float& max_translation, const rt::Ray& ray, rt::HitInfo& hit) const;
-
-	private:
 		Vector3f center_;
 		float radius_;
 	};
