@@ -5,12 +5,6 @@ namespace rt
 {
 namespace geometry
 {
-	Sphere::Sphere(const Material& material)
-		: Geometry(material),
-		radius_(0)
-	{
-	}
-
 	Sphere::Sphere(Vector3f center, float radius, const Material& material)
 		: Geometry(material),
 		center_(center),
@@ -20,42 +14,58 @@ namespace geometry
 
 	bool Sphere::hit(const Ray& ray, const float& min_translation, const float& max_translation, HitInfo& hit) const
 	{
-		auto amc = ray.origin() - center_;
+		static auto calculate_valid_hit = [&](const float& translation)
+		{
+			if (mathf::is_between(translation, min_translation, max_translation))
+			{
+				hit.translation = translation;
+				hit.point = ray.travel(translation);
+				hit.normal = (hit.point - center_) / radius_;
+				hit.geometry = this;
 
-		float a = ray.direction().dot(ray.direction());
-		float b = ray.direction().dot(amc);
-		float c = amc.dot(amc) - (radius_ * radius_);
+				return true;
+			}
+		};
+
+		Vector3f ray_to_center = ray.origin() - center_;
+		Vector3f ray_dir = ray.direction();
+
+		float a = ray_dir.dot(ray_dir);
+		float b = ray_dir.dot(ray_to_center);
+		float c = ray_to_center.dot(ray_to_center) - (radius_ * radius_);
 
 		float delta = b * b - a * c;
-		if (delta > 0)
+
+		if (delta == 0.f)
 		{
-			auto check_hit = [&](float t_in) -> bool {
-				if (t_in < max_translation && t_in > min_translation)
-				{
-					hit.translation = t_in;
-					hit.point = ray.travel(t_in);
-					hit.normal = (hit.point - center_) / radius_;
-					hit.geometry = this;
+			float root = -b / a;
 
-					return true;
-				}
+			return calculate_valid_hit(root);
+		}
+		else if (delta > 0.f)
+		{
+			float sqrt_delta = std::sqrt(delta);
 
-				return false;
-			};
+			float first_root = (-b - sqrt_delta) / a;
+			float second_root = (-b + sqrt_delta) / a;
 
-			float sqrtDelta = std::sqrt(delta);
+			return calculate_valid_hit(first_root)
+				|| calculate_valid_hit(second_root);
+		}
 
-			float ray_translation = (-b - sqrtDelta) / a;
-			if (check_hit(ray_translation))
-			{
-				return true;
-			}
+		return false;
+	}
 
-			ray_translation = (-b + sqrtDelta) / a;
-			if (check_hit(ray_translation))
-			{
-				return true;
-			}
+	bool Sphere::calculate_valid_hit(const float& translation, const float& min_translation, const float& max_translation, const rt::Ray& ray, rt::HitInfo& hit) const
+	{
+		if (mathf::is_between(translation, min_translation, max_translation))
+		{
+			hit.translation = translation;
+			hit.point = ray.travel(translation);
+			hit.normal = (hit.point - center_) / radius_;
+			hit.geometry = this;
+
+			return true;
 		}
 
 		return false;

@@ -27,7 +27,7 @@ namespace rt
 					color_sum += cast_ray(camera.get_ray(u, v), 0, world);
 				}
 
-				color_sum /= settings.smooth_sampling;
+				color_sum /= static_cast<float>(settings.smooth_sampling);
 				buffer[buffer_index++] = Color(std::sqrt(color_sum[0]), std::sqrt(color_sum[1]), std::sqrt(color_sum[2]));
 			}
 		}
@@ -40,7 +40,7 @@ namespace rt
 		HitInfo hit;
 
 		float current_max = std::numeric_limits<float>::max();
-		const float minimum = 0.001;
+		const float minimum = 0.001f;
 		bool got_any_hit = false;
 		HitInfo tempHit;
 

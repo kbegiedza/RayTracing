@@ -78,8 +78,8 @@ int main()
 
 	auto start_time = high_resolution_clock::now();
 
-	const int width = 200;
-	const int height = 100;
+	const size_t width = 200;
+	const size_t height = 100;
 
 	//world
 	const size_t world_elements = 150;
@@ -99,7 +99,7 @@ int main()
 	rt::Camera camera(camera_pos, poi, world_up, cameraFov, aspect, aperture, focus_distance);
 
 	//render
-	const int smoothSamples = 2;
+	const int smoothSamples = 16;
 	const rt::RenderSettings render_settings(camera, width, height, smoothSamples);
 	auto render_data = rt::RayTracer::render(render_settings, world);
 
@@ -120,5 +120,8 @@ int main()
 
 	std::cout << "========================================\n"
 		<< "Finished in: " << elapsed_ms.count() << " [ms].\n"
-		<< "========================================\n";
+		<< "========================================\n"
+		<< "Press any key to exit";
+
+	std::cin.get();
 }

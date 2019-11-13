@@ -19,6 +19,7 @@ namespace geometry
 		const Material& material() const;
 
 		virtual bool hit(const Ray& ray, const float& min_translation, const float& max_translation, HitInfo& hit) const = 0;
+
 	private:
 		const Material& material_;
 	};

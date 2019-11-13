@@ -15,10 +15,11 @@ namespace rt
 		{
 		}
 
-		const size_t& width;
-		const size_t& height;
 		const Camera& target_camera;
-		const size_t& smooth_sampling;
+
+		const size_t width;
+		const size_t height;
+		const size_t smooth_sampling;
 	};
 }
 #endif // !RENDERSETTINGS_HPP_

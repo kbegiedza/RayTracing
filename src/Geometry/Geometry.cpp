@@ -5,7 +5,7 @@ namespace rt
 namespace geometry
 {
 	Geometry::Geometry(const Material& material)
-		:material_(material)
+		: material_(material)
 	{
 	}
 

@@ -11,6 +11,17 @@ namespace mathf
 
 	float clamp(const float& value, const float& min, const float& max);
 	float clamp01(const float& value);
+	
+	/**
+	* checks is value between minimum (exclusive) and maximum (exclusive)
+	* @returns
+	*/
+	template<typename T>
+	bool is_between(const T& value, const T& minimum, const T& maximum)
+	{
+		return value > minimum 
+			&& value < maximum;
+	}
 }
 }
 
