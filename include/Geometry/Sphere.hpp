@@ -10,7 +10,7 @@ namespace geometry
 	class Sphere : public Geometry
 	{
 	public:
-		Sphere(Vector3f center, float radius, const Material& material);
+		Sphere(const Vector3f& center, const float& radius, const Material& material);
 
 		virtual bool hit(const Ray& ray, const float& min_translation, const float& max_translation, HitInfo& hit) const override;
 

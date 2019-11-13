@@ -5,7 +5,7 @@ namespace rt
 {
 namespace geometry
 {
-	Sphere::Sphere(Vector3f center, float radius, const Material& material)
+	Sphere::Sphere(const Vector3f& center, const float& radius, const Material& material)
 		: Geometry(material),
 		center_(center),
 		radius_(radius)
@@ -27,27 +27,27 @@ namespace geometry
 			}
 		};
 
-		Vector3f ray_to_center = ray.origin() - center_;
-		Vector3f ray_dir = ray.direction();
+		const Vector3f ray_to_center = ray.origin() - center_;
+		const Vector3f ray_dir = ray.direction();
 
-		float a = ray_dir.dot(ray_dir);
-		float b = ray_dir.dot(ray_to_center);
-		float c = ray_to_center.dot(ray_to_center) - (radius_ * radius_);
+		const float a = ray_dir.dot(ray_dir);
+		const float b = ray_dir.dot(ray_to_center);
+		const float c = ray_to_center.dot(ray_to_center) - (radius_ * radius_);
 
-		float delta = b * b - a * c;
+		const float delta = b * b - a * c;
 
 		if (delta == 0.f)
 		{
-			float root = -b / a;
+			const float root = -b / a;
 
 			return calculate_valid_hit(root);
 		}
 		else if (delta > 0.f)
 		{
-			float sqrt_delta = std::sqrt(delta);
+			const float sqrt_delta = std::sqrt(delta);
 
-			float first_root = (-b - sqrt_delta) / a;
-			float second_root = (-b + sqrt_delta) / a;
+			const float first_root = (-b - sqrt_delta) / a;
+			const float second_root = (-b + sqrt_delta) / a;
 
 			return calculate_valid_hit(first_root)
 				|| calculate_valid_hit(second_root);
