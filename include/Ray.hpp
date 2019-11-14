@@ -17,8 +17,8 @@ namespace rt
 		Vector3f travel(const float& time) const;
 
 	private:
-		const Vector3f origin_;
-		const Vector3f direction_;
+		Vector3f origin_;
+		Vector3f direction_;
 	};
 }
 

@@ -112,9 +112,12 @@ int main()
 	rt::Camera camera(camera_orientation, camera_view);
 
 	//render
-	const int smoothSamples = 2;
-	const rt::RenderSettings render_settings(camera, width, height, smoothSamples);
-	auto render_data = rt::RayTracer::render(render_settings, world);
+	const size_t smoothSamples = 2;
+	const size_t max_depth = 50;
+	const rt::RenderSettings render_settings(camera, width, height, max_depth, smoothSamples);
+
+	rt::RayTracer ray_tracer(render_settings, world);
+	auto render_data = ray_tracer.render();
 
 	//output
 	const std::string path = "./output.ppm";

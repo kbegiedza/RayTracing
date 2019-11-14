@@ -7,10 +7,11 @@ namespace rt
 {
 	struct RenderSettings
 	{
-		RenderSettings(const Camera& camera, const size_t& width, const size_t& height, const size_t& smooth_sampling)
+		RenderSettings(const Camera& camera, const size_t& width, const size_t& height, const size_t& max_depth, const size_t& smooth_sampling)
 			: target_camera(camera),
 			width(width),
 			height(height),
+			max_depth(max_depth),
 			smooth_sampling(smooth_sampling)
 		{
 		}
@@ -19,6 +20,7 @@ namespace rt
 
 		const size_t width;
 		const size_t height;
+		const size_t max_depth;
 		const size_t smooth_sampling;
 	};
 }

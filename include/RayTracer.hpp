@@ -14,10 +14,28 @@ namespace rt
 	class RayTracer
 	{
 	public:
-		static std::vector<Color> render(const RenderSettings& render_settings, const std::vector<std::unique_ptr<geometry::Geometry>>& world);
+		RayTracer(const RenderSettings& render_settings, const std::vector<std::unique_ptr<geometry::Geometry>>& world);
+
+		std::vector<Color> render() const;
+		void render(std::vector<Color>& buffer) const;
 	
 	private:
-		static Vector3f cast_ray(const Ray& ray, int depth, const std::vector<std::unique_ptr<geometry::Geometry>>& world);
+		Vector3f cast_ray(const Ray& ray, const size_t& depth) const;
+		bool find_closest_hit(const rt::Ray& ray, rt::HitInfo& hit) const;
+
+		Vector3f calculate_hit_color(const rt::Ray& ray, rt::HitInfo& hit, const size_t& depth) const;
+		Vector3f skybox_fallback(const Ray& ray) const;
+
+	private:
+		static constexpr float clip_minimum_ = 0.001f;
+
+	private:
+		const Camera& camera_;
+		const RenderSettings settings_;
+		const std::vector<std::unique_ptr<geometry::Geometry>>& world_;
+
+		const Vector3f skybox_top_;
+		const Vector3f skybox_bottom_;
 	};
 }
 
