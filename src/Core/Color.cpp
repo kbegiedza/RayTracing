@@ -10,6 +10,15 @@ namespace rt
 		return Color();
 	}
 
+	Color Color::correct_gamma(const Vector3f& color)
+	{
+		return Color(
+			std::sqrt(color[0]),
+			std::sqrt(color[1]),
+			std::sqrt(color[2])
+		);
+	}
+
 	Color::Color()
 	{
 		r_ = g_ = b_ = 0;

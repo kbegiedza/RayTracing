@@ -1,12 +1,15 @@
 #ifndef COLOR_HPP_
 #define COLOR_HPP_
 
+#include <Core/Vector3.hpp>
+
 namespace rt
 {
 	class Color
 	{
 	public:
 		static Color black();
+		static Color correct_gamma(const Vector3f& color);
 
 	public:
 		Color();
