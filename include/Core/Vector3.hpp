@@ -12,6 +12,7 @@ namespace rt
 		static Vector3<T> reflect(const Vector3<T>& vector, const Vector3<T>& normal);
 		static T dot(const Vector3<T>& lhs, const Vector3<T>& rhs);
 		static Vector3<T> cross(const Vector3<T>& lhs, const Vector3<T>& rhs);
+		static Vector3<T> lerp(const Vector3<T>& lhs, const Vector3<T>& rhs, const float& t);
 
 	public:
 		Vector3();
@@ -81,6 +82,12 @@ namespace rt
 		return Vector3<T>(lhs[1] * rhs[2] - lhs[2] * rhs[1],
 						lhs[2] * rhs[0] - lhs[0] * rhs[2],
 						lhs[0] * rhs[1] - lhs[1] * rhs[0]);
+	}
+
+	template<typename T>
+	inline Vector3<T> Vector3<T>::lerp(const Vector3<T>& lhs, const Vector3<T>& rhs, const float& t)
+	{
+		return ((1 - t) * lhs) + (t * rhs);
 	}
 
 	template<typename T>
