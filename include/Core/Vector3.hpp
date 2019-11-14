@@ -25,20 +25,20 @@ namespace rt
 		void set_y(const T& value) { data_[1] = value; }
 		void set_z(const T& value) { data_[2] = value; }
 
-		T& operator[](const int i) { return data_[i]; }
-		T operator[](const int i) const { return data_[i]; }
+		T& operator[](const int& i) { return data_[i]; }
+		T operator[](const int& i) const { return data_[i]; }
 		const Vector3<T>& operator+() const { return *this; }
 		Vector3<T> operator-() const { return Vector3<T>(-data_[0], -data_[1], -data_[2]); }
 
-		Vector3<T>& hadamard(const Vector3<T> & rhs);
+		Vector3<T>& hadamard(const Vector3<T>& rhs);
 
-		Vector3<T>& operator+=(const Vector3<T> & rhs);
-		Vector3<T>& operator-=(const Vector3<T> & rhs);
-		Vector3<T>& operator*=(const T scalar);
-		Vector3<T>& operator/=(const T scalar);
+		Vector3<T>& operator+=(const Vector3<T>& rhs);
+		Vector3<T>& operator-=(const Vector3<T>& rhs);
+		Vector3<T>& operator*=(const T& scalar);
+		Vector3<T>& operator/=(const T& scalar);
 
-		Vector3<T> operator*(const T scalar) const;
-		Vector3<T> operator/(const T scalar) const;
+		Vector3<T> operator*(const T& scalar) const;
+		Vector3<T> operator/(const T& scalar) const;
 		Vector3<T> operator+(const Vector3<T>& rhs) const;
 		Vector3<T> operator-(const Vector3<T>& rhs) const;
 
@@ -52,7 +52,10 @@ namespace rt
 		Vector3<T> normalized() const;
 
 		template<typename T>
-		friend Vector3<T> operator*(const T lhs, const Vector3<T>& rhs);
+		friend Vector3<T> operator*(const T& lhs, const Vector3<T>& rhs)
+		{
+			return rhs * lhs;
+		};
 
 	private:
 		T data_[3];
@@ -121,13 +124,13 @@ namespace rt
 	}
 
 	template<typename T>
-	Vector3<T> Vector3<T>::operator*(const T scalar) const
+	Vector3<T> Vector3<T>::operator*(const T& scalar) const
 	{
 		return Vector3<T>(data_[0] * scalar, data_[1] * scalar, data_[2] * scalar);
 	}
 
 	template<typename T>
-	Vector3<T> Vector3<T>::operator/(const T scalar) const
+	Vector3<T> Vector3<T>::operator/(const T& scalar) const
 	{
 		return Vector3<T>(data_[0] / scalar, data_[1] / scalar, data_[2] / scalar);
 	}
@@ -175,7 +178,7 @@ namespace rt
 	}
 
 	template<typename T>
-	Vector3<T>& Vector3<T>::operator*=(const T scalar)
+	Vector3<T>& Vector3<T>::operator*=(const T& scalar)
 	{
 		data_[0] *= scalar;
 		data_[1] *= scalar;
@@ -185,7 +188,7 @@ namespace rt
 	}
 
 	template<typename T>
-	Vector3<T>& Vector3<T>::operator/=(const T scalar)
+	Vector3<T>& Vector3<T>::operator/=(const T& scalar)
 	{
 		data_[0] /= scalar;
 		data_[1] /= scalar;
@@ -197,7 +200,7 @@ namespace rt
 	template<typename T>
 	void Vector3<T>::normalize()
 	{
-		T mag = magnitude();
+		const T mag = magnitude();
 
 		data_[0] /= mag;
 		data_[1] /= mag;
@@ -207,15 +210,9 @@ namespace rt
 	template<typename T>
 	Vector3<T> Vector3<T>::normalized() const
 	{
-		T mag = magnitude();
+		const T mag = magnitude();
 
 		return Vector3<T>(data_[0] / mag, data_[1] / mag, data_[2] / mag);
-	}
-
-	template<typename T>
-	Vector3<T> operator*(const T lhs, const Vector3<T>& rhs)
-	{
-		return rhs * lhs;
 	}
 }
 
