@@ -14,7 +14,7 @@ namespace materials
 
 		virtual bool scatter(const Ray& ray, const HitInfo& hit, Vector3f& attenuation, Ray& scattered) const;
 
-	public:
+	private:
 		Vector3f albedo_;
 	};
 }

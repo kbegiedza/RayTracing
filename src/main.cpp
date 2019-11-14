@@ -24,17 +24,14 @@ std::vector<std::unique_ptr<Geometry>> generate_random_world(std::vector<std::sh
 	materials.push_back(std::make_shared<Lambertian>(Vector3f(0.5f, 0.5f, 0.5f)));
 	world[index] = std::make_unique<Sphere>(Vector3f(0.f, -1000.f, 0.f), 1000.f, *materials[index]);
 
-	index++;
 	materials.push_back(std::make_shared<Dielectric>(1.5f));
-	world[index] = std::make_unique<Sphere>(Vector3f(0.f, 1.f, -3.f), 1.f, *materials[index]);
+	world[++index] = std::make_unique<Sphere>(Vector3f(0.f, 1.f, -3.f), 1.f, *materials[index]);
 
-	index++;
 	materials.push_back(std::make_shared<Lambertian>(Vector3f(0.6f, 0.2f, 0.2f)));
-	world[index] = std::make_unique<Sphere>(Vector3f(1.f, 1.f, -4.5f), 1.f, *materials[index]);
+	world[++index] = std::make_unique<Sphere>(Vector3f(1.f, 1.f, -4.5f), 1.f, *materials[index]);
 
-	index++;
 	materials.push_back(std::make_shared<Metallic>(Vector3f(0.8f, 0.8f, 0.9f)));
-	world[index] = std::make_unique<Sphere>(Vector3f(2.f, 1.f, -3.f), 1.f, *materials[index]);
+	world[++index] = std::make_unique<Sphere>(Vector3f(2.f, 1.f, -3.f), 1.f, *materials[index]);
 
 	for (size_t i = ++index; i < elements; ++i)
 	{
@@ -53,8 +50,8 @@ std::vector<std::unique_ptr<Geometry>> generate_random_world(std::vector<std::sh
 		// glass
 		else
 		{
-			float refractive_index = (random::real() + 3.f) * .5f;
-			materials.push_back(std::make_shared<Dielectric>(refractive_index));
+			float refractive_index_ = (random::real() + 3.f) * .5f;
+			materials.push_back(std::make_shared<Dielectric>(refractive_index_));
 		}
 	}
 

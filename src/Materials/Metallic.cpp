@@ -8,7 +8,7 @@ namespace materials
 {
 	using mathf::clamp01;
 
-	Metallic::Metallic(const Vector3f& albedo_, float fuzzy)
+	Metallic::Metallic(const Vector3f& albedo_, const float& fuzzy)
 		: albedo_(albedo_),
 		fuzziness_(clamp01(fuzzy))
 	{
