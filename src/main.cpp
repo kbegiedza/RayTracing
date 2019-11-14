@@ -84,17 +84,32 @@ int main()
 	std::vector<std::shared_ptr<Material>> mats;
 	auto world = generate_random_world(mats, world_elements);
 
+
 	// camera
+	const Vector3f camera_origin = Vector3f(0, 2, 1);
+	const Vector3f camera_target = Vector3f(2, 0, -3);
+	const Vector3f world_up = Vector3f(0, 1, 0);
+	const rt::Camera::Orientation camera_orientation
+	{
+		camera_origin,
+		camera_target,
+		world_up
+	};
+
 	const float cameraFov = 60;
 	const float aspect = (float)width / (float)height;
-
-	const Vector3f world_up = Vector3f(0, 1, 0);
-	const Vector3f camera_pos = Vector3f(0, 2, 1);
-	const Vector3f poi = Vector3f(2, 0, -3);
-
-	const float focus_distance = (camera_pos - poi).magnitude();
+	const float focus_distance = (camera_orientation.origin - camera_orientation.lookat).magnitude();
 	const float aperture = 0.15f;
-	rt::Camera camera(camera_pos, poi, world_up, cameraFov, aspect, aperture, focus_distance);
+	
+	const rt::Camera::ViewSettings camera_view
+	{
+		cameraFov,
+		aspect,
+		aperture,
+		focus_distance
+	};
+
+	rt::Camera camera(camera_orientation, camera_view);
 
 	//render
 	const int smoothSamples = 2;

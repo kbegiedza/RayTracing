@@ -24,7 +24,7 @@ namespace rt
 					float u = float(x + random::real()) / float(settings.width);
 					float v = float(y + random::real()) / float(settings.height);
 
-					color_sum += cast_ray(camera.get_ray(u, v), 0, world);
+					color_sum += cast_ray(camera.construct_ray(u, v), 0, world);
 				}
 
 				color_sum /= static_cast<float>(settings.smooth_sampling);
