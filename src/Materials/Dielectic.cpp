@@ -5,7 +5,8 @@ namespace rt
 namespace materials
 {
 	Dielectric::Dielectric(const float& refractive_index)
-		:refractive_index_(refractive_index)
+		: refractive_index_(refractive_index),
+		albedo_(Vector3f(1.f, 1.f, 1.f))
 	{
 	}
 
@@ -27,51 +28,45 @@ namespace materials
 
 	bool Dielectric::scatter(const Ray& r_in, const HitInfo& hit, Vector3f& attenuation, Ray& scattered) const
 	{
-		Vector3f outward_normal;
-		Vector3f reflected = Vector3f::reflect(r_in.direction(), hit.normal);
+		const Vector3f direction = r_in.direction();
+		const refract_data data = calculate_refract_data(direction, hit.normal);
 
-		float ni_over_nt;
+		Vector3f scatter_direction;
+		const bool use_refraction = mathf::schlick_approx(1, refractive_index_, data.cosine) < random::real()
+								&& refract(r_in.direction(), data.normal, data.index, scatter_direction);
 
-		attenuation = Vector3f(1, 1, 1);
-
-		Vector3f refracted;
-
-		float reflect_prob;
-		float cosine;
-
-		float dot = r_in.direction().dot(hit.normal);
-		if (dot > 0)
+		if (!use_refraction)
 		{
-			outward_normal = -hit.normal;
-			ni_over_nt = refractive_index_;
-			cosine = refractive_index_ * dot / r_in.direction().magnitude();
-		}
-		else
-		{
-			outward_normal = hit.normal;
-			ni_over_nt = 1.0f / refractive_index_;
-			cosine = -dot / r_in.direction().magnitude();
+			scatter_direction = Vector3f::reflect(direction, hit.normal);
 		}
 
-		if (refract(r_in.direction(), outward_normal, ni_over_nt, refracted))
-		{
-			reflect_prob = mathf::schlick_approx(1, refractive_index_, cosine);
-		}
-		else
-		{
-			reflect_prob = 1.0;
-		}
-
-		if (random::real() < reflect_prob)
-		{
-			scattered = Ray(hit.point, reflected);
-		}
-		else
-		{
-			scattered = Ray(hit.point, refracted);
-		}
+		attenuation = albedo_;
+		scattered = Ray(hit.point, scatter_direction);
 
 		return true;
+	}
+
+	Dielectric::refract_data Dielectric::calculate_refract_data(Vector3f direction, Vector3f normal) const
+	{
+		const float dot = Vector3f::dot(direction, normal);
+		const float cosine = dot / direction.magnitude();
+
+		if (dot > 0)
+		{
+			return refract_data
+			{
+				-normal,
+				refractive_index_,
+				refractive_index_ * cosine
+			};
+		}
+
+		return refract_data
+		{
+			normal,
+			1.f / refractive_index_,
+			-cosine
+		};
 	}
 }
 }

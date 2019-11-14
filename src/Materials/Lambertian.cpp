@@ -4,8 +4,8 @@ namespace rt
 {
 namespace materials
 {
-	Lambertian::Lambertian(const Vector3f& albedo_)
-		: albedo_(albedo_)
+	Lambertian::Lambertian(const Vector3f& albedo)
+		: albedo_(albedo)
 	{
 	}
 
