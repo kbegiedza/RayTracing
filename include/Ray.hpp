@@ -13,11 +13,12 @@ namespace rt
 
 		Vector3f origin() const;
 		Vector3f direction() const;
-		Vector3f travel(const float time) const;
+
+		Vector3f travel(const float& time) const;
 
 	private:
-		Vector3f origin_;
-		Vector3f direction_;
+		const Vector3f origin_;
+		const Vector3f direction_;
 	};
 }
 
