@@ -11,6 +11,8 @@ namespace mathf
 
 	float clamp(const float& value, const float& min, const float& max);
 	float clamp01(const float& value);
+
+	float schlick_approx(const float& n1, const float& n2, const float& cosine);
 	
 	/**
 	* checks is value between minimum (exclusive) and maximum (exclusive)

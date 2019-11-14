@@ -18,7 +18,7 @@ namespace random
 	inline T range(const T & minimum, const T & maximum)
 	{
 		static const std::uniform_real_distribution<T> distribution(minimum, std::nextafter(maximum, std::numeric_limits<T>::max()));
-		static const std::mt19937 generator;
+		static const std::mt19937 generator { 5489u };
 		static const std::function<T()> random_generator = std::bind(distribution, generator);
 
 		return random_generator();

@@ -26,5 +26,16 @@ namespace mathf
 
 		return clamp(value, minimum, maximum);
 	}
+
+	float schlick_approx(const float& n1, const float& n2, const float& cosine)
+	{
+		constexpr int power = 5;
+		constexpr float one = 1.f;
+
+		float r0 = (n1 - n2) / (n1 + n2);
+		r0 *= r0;
+
+		return r0 + (one - r0) * pow((one - cosine), power);
+	}
 }
 }
