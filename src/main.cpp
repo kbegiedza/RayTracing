@@ -4,6 +4,7 @@
 #include <cmath>
 #include <chrono>
 
+#include "Core/Stopwatch.hpp"
 #include "Materials/Materials.hpp"
 #include "Geometry/Sphere.hpp"
 #include "RayTracer.hpp"
@@ -14,6 +15,7 @@ using namespace rt::materials;
 using rt::geometry::Geometry;
 using rt::geometry::Sphere;
 using rt::Vector3f;
+using rt::Stopwatch;
 
 std::vector<std::unique_ptr<Geometry>> generate_random_world(std::vector<std::shared_ptr<Material>>& materials, const size_t elements)
 {
@@ -74,7 +76,7 @@ int main()
 {
 	using namespace std::chrono;
 
-	auto start_time = high_resolution_clock::now();
+	Stopwatch stopwatch = Stopwatch::StartNew();
 
 	const size_t width = 200;
 	const size_t height = 100;
@@ -130,12 +132,10 @@ int main()
 		std::cout << "Error! " << e.what();
 	}
 
-	auto end_time = high_resolution_clock::now();
-
-	auto elapsed_ms = duration_cast<milliseconds>(end_time - start_time);
+	stopwatch.Stop();
 
 	std::cout << "========================================\n"
-		<< "Finished in: " << elapsed_ms.count() << " [ms].\n"
+		<< "Finished in: " << stopwatch.elapsed_milliseconds().count() << " [ms].\n"
 		<< "========================================\n"
 		<< "Press any key to exit";
 
