@@ -17,6 +17,13 @@ using rt::geometry::Sphere;
 using rt::Vector3f;
 using rt::Stopwatch;
 
+void log_stopwatch(const Stopwatch& stopwatch, std::string message)
+{
+	std::cout << message << " : "
+			<< stopwatch.elapsed_milliseconds().count()
+			<< "[ms].\n";
+}
+
 std::vector<std::unique_ptr<Geometry>> generate_random_world(std::vector<std::shared_ptr<Material>>& materials, const size_t elements)
 {
 	materials.reserve(elements);
@@ -76,7 +83,7 @@ int main()
 {
 	using namespace std::chrono;
 
-	Stopwatch stopwatch = Stopwatch::StartNew();
+	Stopwatch step_stopwatch = Stopwatch::StartNew();
 
 	const size_t width = 200;
 	const size_t height = 100;
@@ -119,8 +126,17 @@ int main()
 	const rt::RenderSettings render_settings(camera, width, height, max_depth, smoothSamples);
 
 	rt::RayTracer ray_tracer(render_settings, world);
+	step_stopwatch.Stop();
+	log_stopwatch(step_stopwatch, "Setup");
+
+	step_stopwatch.Restart();
+
 	auto render_data = ray_tracer.render();
 
+	step_stopwatch.Stop();
+	log_stopwatch(step_stopwatch, "Render");
+
+	step_stopwatch.Restart();
 	//output
 	const std::string path = "./output.ppm";
 	try
@@ -131,13 +147,13 @@ int main()
 	{
 		std::cout << "Error! " << e.what();
 	}
+	step_stopwatch.Stop();
+	log_stopwatch(step_stopwatch, "Write to file");
 
-	stopwatch.Stop();
-
-	std::cout << "========================================\n"
-		<< "Finished in: " << stopwatch.elapsed_milliseconds().count() << " [ms].\n"
-		<< "========================================\n"
-		<< "Press any key to exit";
+	std::cout << "\n========================================\n"
+			<< "|               Finished               |\n"
+			<< "========================================\n"
+			<< "Press any key to exit\n";
 
 	std::cin.get();
 }

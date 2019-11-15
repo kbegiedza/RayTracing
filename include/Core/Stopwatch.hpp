@@ -15,12 +15,13 @@ namespace rt
 		void Restart();
 		void Stop();
 
-		std::chrono::milliseconds elapsed_milliseconds();
+		std::chrono::milliseconds elapsed_milliseconds() const;
 
 	private:
+		bool running_;
+
 		std::chrono::time_point<std::chrono::steady_clock> start_;
 		std::chrono::time_point<std::chrono::steady_clock> end_;
-		bool running_;
 	};
 }
 

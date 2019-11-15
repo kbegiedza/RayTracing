@@ -6,10 +6,10 @@ namespace rt
 
 	Stopwatch Stopwatch::StartNew()
 	{
-		Stopwatch s;
-		s.Start();
+		Stopwatch stopwatch;
+		stopwatch.Start();
 
-		return s;
+		return stopwatch;
 	}
 
 	void Stopwatch::Start()
@@ -30,10 +30,10 @@ namespace rt
 		running_ = false;
 	}
 
-	std::chrono::milliseconds Stopwatch::elapsed_milliseconds()
+	std::chrono::milliseconds Stopwatch::elapsed_milliseconds() const
 	{
-		const auto current_end = running_ 
-			? high_resolution_clock::now() 
+		const auto current_end = running_
+			? high_resolution_clock::now()
 			: end_;
 
 		return duration_cast<milliseconds>(current_end - start_);
