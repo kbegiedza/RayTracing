@@ -11,37 +11,14 @@ namespace rt
 		aperture_(arguments.aperture()),
 		smoothing_samples_(arguments.smoothing())
 	{
+		create_demo_camera();
 		generate_world(world_elements);
 	}
 
 	std::vector<Color> DemoRunner::render() const
 	{
-		const Vector3f camera_origin = Vector3f(0, 2, 1);
-		const Vector3f camera_target = Vector3f(2, 0, -3);
-		const Vector3f world_up = Vector3f(0, 1, 0);
-		const rt::Camera::Orientation camera_orientation
-		{
-			camera_origin,
-			camera_target,
-			world_up
-		};
-
-		const float cameraFov = 60;
-		const float aspect = (float)width_ / (float)height_;
-		const float focus_distance = (camera_orientation.origin - camera_orientation.lookat).magnitude();
-
-		const rt::Camera::ViewSettings camera_view
-		{
-			cameraFov,
-			aspect,
-			aperture_,
-			focus_distance
-		};
-
-		rt::Camera camera(camera_orientation, camera_view);
-
 		const size_t max_depth = 50;
-		const rt::RenderSettings render_settings(camera, width_, height_, max_depth, smoothing_samples_);
+		const rt::RenderSettings render_settings(*camera_, width_, height_, max_depth, smoothing_samples_);
 
 		rt::RayTracer ray_tracer(render_settings, world_);
 
@@ -67,6 +44,33 @@ namespace rt
 			materials_.push_back(get_random_material());
 			world_.push_back(std::make_unique<Sphere>(pos, radius, *materials_.back()));
 		}
+	}
+
+	void DemoRunner::create_demo_camera()
+	{
+		const Vector3f camera_origin = Vector3f(0, 2, 1);
+		const Vector3f camera_target = Vector3f(2, 0, -3);
+		const Vector3f world_up = Vector3f(0, 1, 0);
+		const rt::Camera::Orientation camera_orientation
+		{
+			camera_origin,
+			camera_target,
+			world_up
+		};
+
+		const float cameraFov = 60;
+		const float aspect = (float)width_ / (float)height_;
+		const float focus_distance = (camera_orientation.origin - camera_orientation.lookat).magnitude();
+
+		const rt::Camera::ViewSettings camera_view
+		{
+			cameraFov,
+			aspect,
+			aperture_,
+			focus_distance
+		};
+
+		camera_ = std::make_shared<Camera>(camera_orientation, camera_view);
 	}
 
 	void DemoRunner::add_predefined_world_elements()

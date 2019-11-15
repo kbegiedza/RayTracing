@@ -24,6 +24,7 @@ namespace rt
 		std::vector<Color> render() const;
 
 	private:
+		void create_demo_camera();
 		void add_predefined_world_elements();
 		void generate_world(const size_t& size);
 		std::shared_ptr<materials::Material> get_random_material() const;
@@ -34,6 +35,7 @@ namespace rt
 		const size_t smoothing_samples_;
 		const float aperture_;
 
+		std::shared_ptr<Camera> camera_;
 		std::vector<std::unique_ptr<geometry::Geometry>> world_;
 		std::vector<std::shared_ptr<materials::Material>> materials_;
 	};
