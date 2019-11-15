@@ -5,9 +5,6 @@
 #include <chrono>
 
 #include "Arguments.hpp"
-#include "Materials/Materials.hpp"
-#include "Geometry/Sphere.hpp"
-#include "RayTracer.hpp"
 #include "PPMExporter.hpp"
 #include "DemoRunner.hpp"
 
