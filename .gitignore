@@ -3,6 +3,7 @@
 
 # Binaries:
 [Bb]in/
+[Bb]uild/
 
 # Prerequisites
 *.d
