@@ -52,7 +52,6 @@ namespace rt
 		void normalize();
 		Vector3<T> normalized() const;
 
-		template<typename T>
 		friend Vector3<T> operator*(const T& lhs, const Vector3<T>& rhs)
 		{
 			return rhs * lhs;
@@ -71,13 +70,13 @@ namespace rt
 	}
 
 	template<typename T>
-	inline T Vector3<T>::dot(const Vector3<T>& lhs, const Vector3<T>& rhs)
+	T Vector3<T>::dot(const Vector3<T>& lhs, const Vector3<T>& rhs)
 	{
 		return lhs[0] * rhs[0] + lhs[1] * rhs[1] + lhs[2] * rhs[2];
 	}
 
 	template<typename T>
-	inline Vector3<T> Vector3<T>::cross(const Vector3<T>& lhs, const Vector3<T>& rhs)
+	Vector3<T> Vector3<T>::cross(const Vector3<T>& lhs, const Vector3<T>& rhs)
 	{
 		return Vector3<T>(lhs[1] * rhs[2] - lhs[2] * rhs[1],
 						lhs[2] * rhs[0] - lhs[0] * rhs[2],
@@ -85,7 +84,7 @@ namespace rt
 	}
 
 	template<typename T>
-	inline Vector3<T> Vector3<T>::lerp(const Vector3<T>& lhs, const Vector3<T>& rhs, const float& t)
+	Vector3<T> Vector3<T>::lerp(const Vector3<T>& lhs, const Vector3<T>& rhs, const float& t)
 	{
 		return ((1 - t) * lhs) + (t * rhs);
 	}
@@ -107,7 +106,7 @@ namespace rt
 	}
 
 	template<typename T>
-	inline T Vector3<T>::dot(const Vector3<T>& rhs) const
+	T Vector3<T>::dot(const Vector3<T>& rhs) const
 	{
 		return dot(*this, rhs);
 	}
@@ -119,13 +118,13 @@ namespace rt
 	}
 
 	template<typename T>
-	inline T Vector3<T>::magnitude() const
+	T Vector3<T>::magnitude() const
 	{
 		return sqrt(squared_magnitude());
 	}
 
 	template<typename T>
-	inline T Vector3<T>::squared_magnitude() const
+	T Vector3<T>::squared_magnitude() const
 	{
 		return dot(*this, *this);
 	}

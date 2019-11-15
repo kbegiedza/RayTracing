@@ -7,10 +7,12 @@ namespace rt
 {
 namespace mathf
 {
-	constexpr float PI = 3.14159265358979f;
+	static constexpr float PI = 3.14159265358979f;
 
 	float clamp(const float& value, const float& min, const float& max);
 	float clamp01(const float& value);
+
+	float lerp(const float& a, const float& b, const float t);
 
 	float schlick_approx(const float& n1, const float& n2, const float& cosine);
 	

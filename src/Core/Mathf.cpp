@@ -27,6 +27,11 @@ namespace mathf
 		return clamp(value, minimum, maximum);
 	}
 
+	float lerp(const float& a, const float& b, const float t)
+	{
+		return (1 - t) * a + t * b;
+	}
+
 	float schlick_approx(const float& n1, const float& n2, const float& cosine)
 	{
 		constexpr int power = 5;
