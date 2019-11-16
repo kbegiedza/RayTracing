@@ -6,18 +6,14 @@ jobs:
     strategy:
       matrix:
         GCC-8 Debug:
-          CC: gcc-8
           CXX: g++-8
           BuildType: Debug
           SelfHost: false
-          CMakeArgs: ''
 
         GCC-8 Release:
-          CC: gcc-8
           CXX: g++-8
           BuildType: Release
           SelfHost: false
-          CMakeArgs: ''
   steps:
     - script: |
         sudo apt-get update
@@ -27,9 +23,10 @@ jobs:
         CMAKE_CXX_FLAGS="-std=c++17"
         if [[ "$CXX" == clang++* ]]; then CMAKE_CXX_FLAGS+=" -stdlib=libstdc++"; fi
       displayName: 'Install dependencies'
+
     - task: 'CMake@1'
       inputs:
-        cmakeArgs: '.. $(CMakeArgs) -DCMAKE_BUILD_TYPE=$(BuildType) -DCMAKE_CXX_FLAGS="$CMAKE_CXX_FLAGS" -DSNMALLOC_CI_BUILD=On'
+        cmakeArgs: '.. -DCMAKE_BUILD_TYPE=$(BuildType) -DCMAKE_CXX_FLAGS="$CMAKE_CXX_FLAGS" -DSNMALLOC_CI_BUILD=On'
         workingDirectory: build
       displayName: 'Cmake generation'
 
