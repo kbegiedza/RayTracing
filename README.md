@@ -21,10 +21,16 @@ Use `CMake`.
 
 ## How to use?
 
-`<executable> 🅐 🅑 🅒 🅓 🅔`  
+Run: `<executable> 🅐 🅑 🅒 🅓 🅔`  
+
 where:  
 `🅐` - render width  
 `🅑` - render height  
 `🅒` - smoothing samples (anty-aliasing)  
 `🅓` - aperture of camera's lens  
 `🅔` - output path  
+
+## Example output
+
+Used params: `🅐=1920 🅑=1080 🅒=100 🅓=0.15`    
+<img src="https://github.com/Ursanon/RayTracing/blob/master/resources/example_0.png" width="320">
