@@ -25,6 +25,6 @@ Use `CMake`.
 where:  
 `🅐` - render width  
 `🅑` - render height  
-`🅒` - smoothing samples (anty-aliasing)
-`🅓` - aperture of camera's lens
-`🅔` - output path
+`🅒` - smoothing samples (anty-aliasing)  
+`🅓` - aperture of camera's lens  
+`🅔` - output path  
