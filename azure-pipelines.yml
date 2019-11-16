@@ -21,9 +21,10 @@ jobs:
           CMakeArgs: ''
   steps:
     - script: |
-        sudo apt-get 
-        update sudo apt-get install -y libc++-dev libc++abi-dev libc++abi1 libstdc++-8-dev gcc-8 g++-8
-        
+        sudo apt-get update
+        sudo apt-get install -y libc++-dev libc++abi-dev libc++abi1 libstdc++-8-dev gcc-8 g++-8
+        sudo apt-get install -y cmake
+
         CMAKE_CXX_FLAGS="-std=c++17"
         if [[ "$CXX" == clang++* ]]; then CMAKE_CXX_FLAGS+=" -stdlib=libstdc++"; fi
       displayName: 'Install dependencies'
