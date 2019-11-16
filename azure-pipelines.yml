@@ -20,17 +20,16 @@ jobs:
         sudo apt-get install -y libc++-dev libc++abi-dev libc++abi1 libstdc++-8-dev gcc-8 g++-8
         sudo apt-get install -y cmake
 
-        CMAKE_CXX_FLAGS="-std=c++17"
-        if [[ "$CXX" == clang++* ]]; then CMAKE_CXX_FLAGS+=" -stdlib=libstdc++"; fi
       displayName: 'Install dependencies'
 
     - task: 'CMake@1'
       inputs:
-        cmakeArgs: '.. -DCMAKE_BUILD_TYPE=$(BuildType) -DCMAKE_CXX_FLAGS="$CMAKE_CXX_FLAGS" -DSNMALLOC_CI_BUILD=On'
+        cmakeArgs: '.. -DCMAKE_BUILD_TYPE=$(BuildType)'
         workingDirectory: build
       displayName: 'Cmake generation'
 
     - script: |
         make
+      workingDirectory: build
       displayName: 'Build'
       failOnStderr: true
