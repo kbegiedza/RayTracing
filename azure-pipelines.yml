@@ -2,7 +2,6 @@ jobs:
 - job: Linux
   displayName: linux-latest
   pool:
-    demands: cmake
     vmImage: 'ubuntu-latest'
     strategy:
       matrix:
