@@ -27,9 +27,6 @@ namespace rt
 		Vector3f skybox_fallback(const Ray& ray) const;
 
 	private:
-		static constexpr float clip_minimum_ = 0.001f;
-
-	private:
 		const Camera& camera_;
 		const RenderSettings settings_;
 		const std::vector<std::unique_ptr<geometry::Geometry>>& world_;

@@ -17,8 +17,9 @@ namespace rt
 
 	std::vector<Color> DemoRunner::render() const
 	{
-		const size_t max_depth = 50;
-		const rt::RenderSettings render_settings(*camera_, width_, height_, max_depth, smoothing_samples_);
+		constexpr float clip_minimum = 0.001f;
+		constexpr size_t max_depth = 50;
+		const rt::RenderSettings render_settings(*camera_, width_, height_, max_depth, smoothing_samples_, clip_minimum);
 
 		rt::RayTracer ray_tracer(render_settings, world_);
 
@@ -32,8 +33,8 @@ namespace rt
 		materials_.reserve(materials_.size() + size);
 		world_.reserve(world_.size() + size);
 
-		const float minimum_size = 0.1f;
-		const float maximum_size = 0.25f;
+		constexpr float minimum_size = 0.1f;
+		constexpr float maximum_size = 0.25f;
 
 		for (size_t i = world_.size(); i < size; ++i)
 		{
@@ -58,7 +59,7 @@ namespace rt
 			world_up
 		};
 
-		const float cameraFov = 60;
+		constexpr float cameraFov = 60;
 		const float aspect = (float)width_ / (float)height_;
 		const float focus_distance = (camera_orientation.origin - camera_orientation.lookat).magnitude();
 
@@ -92,11 +93,14 @@ namespace rt
 	{
 		const float material_type = rt::random::real();
 
-		if (material_type < .6f)
+		constexpr float diffuse_threshold = 0.6f;
+		constexpr float metallic_threshold = 0.95f;
+
+		if (material_type < diffuse_threshold)
 		{
 			return std::make_shared<Lambertian>(Vector3f(rt::random::real() * rt::random::real(), rt::random::real() * rt::random::real(), rt::random::real() * rt::random::real()));
 		}
-		else if (material_type < .95f)
+		else if (material_type < metallic_threshold)
 		{
 			return std::make_shared<Metallic>(Vector3f(1 + rt::random::real(), 1 + rt::random::real(), 1 + rt::random::real()) * .5f, .5f * rt::random::real());
 		}

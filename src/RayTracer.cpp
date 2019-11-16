@@ -76,7 +76,7 @@ namespace rt
 		HitInfo temp_hit;
 		for (size_t i = 0, elements = world_.size(); i < elements; ++i)
 		{
-			if ((world_[i])->hit(ray, clip_minimum_, current_max, temp_hit))
+			if ((world_[i])->hit(ray, settings_.clip_minimum, current_max, temp_hit))
 			{
 				got_any_hit = true;
 				current_max = temp_hit.translation;
