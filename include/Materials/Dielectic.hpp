@@ -18,7 +18,7 @@ namespace materials
 		};
 
 	public:
-		Dielectric(const float& refractive_index);
+		explicit Dielectric(const float& refractive_index);
 
 		bool refract(const Vector3f& vector, const Vector3f& normal, const float& refractive_index, Vector3f& refracted) const;
 		virtual bool scatter(const Ray& r_in, const HitInfo& hit, Vector3f& attenuation, Ray& scattered) const;

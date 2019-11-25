@@ -15,22 +15,33 @@ namespace rt
 			<< std::endl;
 	}
 
-	bool Arguments::parse_arguments(const int argc, const char** argv)
+	void Arguments::parse_arguments(const int argc, const char** argv, const std::function<void(Arguments)>& success_callback)
 	{
 		if (argc < 6)
 		{
 			show_help();
 
-			return false;
+			return;
 		}
 
-		width_ = std::max<unsigned int>(std::strtoul(argv[1], 0, 10), 1);
-		height_ = std::max<unsigned int>(std::strtoul(argv[2], 0, 10), 1);
-		smoothing_ = std::max<unsigned int>(std::strtoul(argv[3], 0, 10), 1);
-		aperture_ = static_cast<float>(std::atof(argv[4]));
-		output_path_ = argv[5];
+		const auto width = std::max<unsigned int>(std::strtoul(argv[1], 0, 10), 1);
+		const auto height = std::max<unsigned int>(std::strtoul(argv[2], 0, 10), 1);
+		const auto smoothing = std::max<unsigned int>(std::strtoul(argv[3], 0, 10), 1);
+		const auto aperture = static_cast<float>(std::atof(argv[4]));
+		const auto output_path = argv[5];
 
-		return true;
+		const Arguments arguments(width, height, smoothing, aperture, output_path);
+
+		success_callback(arguments);
+	}
+
+	Arguments::Arguments(const size_t& width, const size_t& height, const size_t& smoothing, const float& aperture, const std::string& output_path)
+		:width_(width),
+		height_(height),
+		smoothing_(smoothing),
+		aperture_(aperture),
+		output_path_(output_path)
+	{
 	}
 
 	const size_t Arguments::width() const

@@ -19,6 +19,7 @@ namespace rt
 
 	private:
 		static const std::string extension_;
+		static constexpr char separator_ = ' ';
 	};
 }
 
