@@ -6,6 +6,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f045f5190a6b44c28a2e2a8754650f77)](https://www.codacy.com/manual/Ursanon/RayTracing?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Ursanon/RayTracing&amp;utm_campaign=Badge_Grade)
 
 Simple raytracer implementation with:
+
   * sphere geometry
   * 3 materials (diffuse, metallic, refractive)
   * hardcoded demo-world
