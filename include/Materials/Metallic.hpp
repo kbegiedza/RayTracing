@@ -10,7 +10,7 @@ namespace materials
 	class Metallic : public Material
 	{
 	public:
-		Metallic(const Vector3f& albedo, const float& fuzzy = 0);
+		explicit Metallic(const Vector3f& albedo, const float& fuzzy = 0);
 
 		virtual bool scatter(const Ray& ray, const HitInfo& hit, Vector3f& attenuation, Ray& scattered) const;
 

@@ -3,6 +3,7 @@
 
 #include <string>
 #include <algorithm>
+#include <functional>
 
 namespace rt
 {
@@ -25,9 +26,12 @@ namespace rt
 
 		static void show_help();
 
-	public:
-		bool parse_arguments(const int argc, const char** args);
+		static void parse_arguments(const int argc, const char** args, const std::function<void(Arguments)>& success_callback);
 
+	private:
+		Arguments(const size_t& width, const size_t& height, const size_t& smoothing, const float& aperture, const std::string& output_path);
+
+	public:
 		const size_t width() const;
 		const size_t height() const;
 		const size_t smoothing() const;

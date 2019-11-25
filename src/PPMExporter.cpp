@@ -32,7 +32,7 @@ namespace rt
 		{
 			rt::Vector3<int> ppmColor(int(255 * color.r()), int(255 * color.g()), int(255 * color.b()));
 
-			stream << ppmColor[0] << " " << ppmColor[1] << " " << ppmColor[2] << std::endl;
+			stream << ppmColor[0] << separator_ << ppmColor[1] << separator_ << ppmColor[2] << std::endl;
 		}
 	}
 
@@ -40,10 +40,9 @@ namespace rt
 	{
 		const std::string color_value = "255";
 		const std::string header = "P3";
-		const char separator = ' ';
 
 		stream << header << std::endl
-			<< width << ' ' << height << std::endl
+			<< width << separator_ << height << std::endl
 			<< color_value << std::endl;
 	}
 }

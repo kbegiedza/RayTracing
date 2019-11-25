@@ -19,7 +19,7 @@ namespace rt
 	class DemoRunner
 	{
 	public:
-		DemoRunner(const Arguments& arguments, const size_t& world_elements = 150);
+		DemoRunner(const Arguments& arguments, const size_t& world_elements);
 
 		std::vector<Color> render() const;
 
