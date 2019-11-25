@@ -7,12 +7,12 @@
 
 Simple raytracer implementation with:
 
-  * sphere geometry
-  * 3 materials (diffuse, metallic, refractive)
-  * hardcoded demo-world
-  * naive arguments parser
-  * ppm exporter
-  * tons of math
+*   sphere geometry
+*   3 materials (diffuse, metallic, refractive)
+*   hardcoded demo-world
+*   naive arguments parser
+*   ppm exporter
+*   tons of math
 
 Produces `.ppm` file with rendered camera's view.
 
