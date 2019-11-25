@@ -1,8 +1,11 @@
 trigger:
-- master
-
-pr:
-- master
+  batch: true
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - README.md
 
 jobs:
 - job: Linux
