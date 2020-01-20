@@ -24,12 +24,12 @@ Use `CMake`.
 
 Run: `<executable> 🅐 🅑 🅒 🅓 🅔`
 
-where:
-`🅐` - render width
-`🅑` - render height
-`🅒` - smoothing samples (anty-aliasing)
-`🅓` - aperture of camera's lens
-`🅔` - output path
+where:    
+`🅐` - render width    
+`🅑` - render height    
+`🅒` - smoothing samples (anty-aliasing)    
+`🅓` - aperture of camera's lens    
+`🅔` - output path    
 
 ## Example output
 
